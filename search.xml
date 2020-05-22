@@ -714,7 +714,8 @@
   <entry>
     <title>jQuery+Ajax</title>
     <url>/2020/05/22/jQuery-Ajax/</url>
-    <content><![CDATA[<h1 id="本文主要介绍jQuery的基本用法，包括选择器、属性和属性节点、事件以及Ajax的jQuery封装。具体细节还请查阅jQuery帮助手册http-hemin-cn-jq"><a href="#本文主要介绍jQuery的基本用法，包括选择器、属性和属性节点、事件以及Ajax的jQuery封装。具体细节还请查阅jQuery帮助手册http-hemin-cn-jq" class="headerlink" title="本文主要介绍jQuery的基本用法，包括选择器、属性和属性节点、事件以及Ajax的jQuery封装。具体细节还请查阅jQuery帮助手册http://hemin.cn/jq/"></a>本文主要介绍jQuery的基本用法，包括选择器、属性和属性节点、事件以及Ajax的jQuery封装。具体细节还请查阅jQuery帮助手册<a href="http://hemin.cn/jq/" target="_blank" rel="noopener">http://hemin.cn/jq/</a></h1><a id="more"></a>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文主要介绍jQuery的基本用法，包括选择器、属性和属性节点、事件以及Ajax的jQuery封装。具体细节还请查阅jQuery帮助手册<a href="http://hemin.cn/jq/" target="_blank" rel="noopener">http://hemin.cn/jq/</a></p>
+<a id="more"></a>
 <h1 id="jquery到底是什么"><a href="#jquery到底是什么" class="headerlink" title="jquery到底是什么"></a>jquery到底是什么</h1><p>jQuery的官网 <a href="http://jquery.com/" target="_blank" rel="noopener">http://jquery.com/</a><br>jQuery就是一个js库，使用jQuery的话，会比使用JavaScript更简单。</p>
 <h1 id="jquery的版本问题"><a href="#jquery的版本问题" class="headerlink" title="jquery的版本问题"></a>jquery的版本问题</h1><p>大版本分类：</p>
 <ul>
