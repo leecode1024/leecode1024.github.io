@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://leecode1024.github.io"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,数据分析," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Lee" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="pandas前言本文主要介绍pandas的一维对象Series与二维对象Dataframe的一些常用操作。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python数据分析三剑客之Pandas">
+<meta property="og:url" content="https://github.com/leecode1024/leecode1024.github.io/2020/06/02/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%89%E5%89%91%E5%AE%A2%E4%B9%8BPandas/index.html">
+<meta property="og:site_name" content="Lee">
+<meta property="og:description" content="pandas前言本文主要介绍pandas的一维对象Series与二维对象Dataframe的一些常用操作。">
+<meta property="article:published_time" content="2020-06-02T08:30:06.000Z">
+<meta property="article:modified_time" content="2020-06-07T01:45:26.572Z">
+<meta property="article:author" content="李义">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="数据分析">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/leecode1024/leecode1024.github.io/2020/06/02/Python数据分析三剑客之Pandas/"/>
+
+
+
+
+
+  <title>Python数据分析三剑客之Pandas | Lee</title>
+  
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">捣鼓一个博客玩</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/leecode1024/leecode1024.github.io/2020/06/02/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%89%E5%89%91%E5%AE%A2%E4%B9%8BPandas/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李义">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python数据分析三剑客之Pandas</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-02T16:30:06+08:00">
+                2020-06-02
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-06-07T09:45:26+08:00">
+                2020-06-07
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python-%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">-[Python,数据分析]</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/06/02/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%89%E5%89%91%E5%AE%A2%E4%B9%8BPandas/" class="leancloud_visitors" data-flag-title="Python数据分析三剑客之Pandas">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  6.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  31
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本文主要介绍pandas的一维对象Series与二维对象Dataframe的一些常用操作。</p>
+<a id="more"></a>
+
+<h1 id="pandas介绍"><a href="#pandas介绍" class="headerlink" title="pandas介绍"></a>pandas介绍</h1><p>pandas 是基于<a href="https://baike.baidu.com/item/NumPy/5678437" target="_blank" rel="noopener">NumPy</a> 的一种工具，该工具是为了解决数据分析任务而创建的。Pandas 纳入了大量库和一些标准的<a href="https://baike.baidu.com/item/数据模型/1305623" target="_blank" rel="noopener">数据模型</a>，提供了高效地操作大型数据集所需的工具。pandas提供了大量能使我们快速便捷地处理数据的函数和方法。你很快就会发现，它是使Python成为强大而高效的数据分析环境的重要因素之一。</p>
+<h1 id="pandas常用数据类型"><a href="#pandas常用数据类型" class="headerlink" title="pandas常用数据类型"></a>pandas常用数据类型</h1><ol>
+<li>Series，带标签的一位数组</li>
+<li>DatatimeIndex，时间序列</li>
+<li>Dataframe，带标签且大小可变的二维表格结构。</li>
+<li>Panel，带标签且大小可变的三维数组。</li>
+</ol>
+<p>这里只介绍一维与二维结构。</p>
+<h1 id="一维数组与常用操作"><a href="#一维数组与常用操作" class="headerlink" title="一维数组与常用操作"></a>一维数组与常用操作</h1><ul>
+<li>Series，由索引和值两部分组成，是一个类似于字典的结构。</li>
+<li>其中值的类型可以不同，如果没有索引会自动从0开始的非负整数作为索引。</li>
+</ul>
+<h2 id="创建Series对象"><a href="#创建Series对象" class="headerlink" title="创建Series对象"></a>创建Series对象</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="comment">#自动创建从0开始的非负整数索引</span></span><br><span class="line">s1=pd.Series(range(<span class="number">1</span>,<span class="number">10</span>,<span class="number">2</span>))</span><br><span class="line">s1</span><br><span class="line">Out[<span class="number">21</span>]: </span><br><span class="line"><span class="number">0</span>    <span class="number">1</span></span><br><span class="line"><span class="number">1</span>    <span class="number">3</span></span><br><span class="line"><span class="number">2</span>    <span class="number">5</span></span><br><span class="line"><span class="number">3</span>    <span class="number">7</span></span><br><span class="line"><span class="number">4</span>    <span class="number">9</span></span><br><span class="line">dtype: int64</span><br><span class="line">    </span><br><span class="line"><span class="comment">#使用字典创建，字典的键作为索引</span></span><br><span class="line">s2=pd.Series(&#123;<span class="string">'语文'</span>:<span class="number">90</span>,<span class="string">'数学'</span>:<span class="number">88</span>,<span class="string">'英语'</span>:<span class="number">89</span>&#125;)</span><br><span class="line"></span><br><span class="line">s2</span><br><span class="line">Out[<span class="number">23</span>]: </span><br><span class="line">语文    <span class="number">90</span></span><br><span class="line">数学    <span class="number">88</span></span><br><span class="line">英语    <span class="number">89</span></span><br><span class="line">dtype: int64</span><br><span class="line">s2.values</span><br><span class="line">Out[<span class="number">24</span>]: array([<span class="number">90</span>, <span class="number">88</span>, <span class="number">89</span>], dtype=int64)</span><br><span class="line"></span><br><span class="line">s2.index</span><br><span class="line">Out[<span class="number">25</span>]: Index([<span class="string">'语文'</span>, <span class="string">'数学'</span>, <span class="string">'英语'</span>], dtype=<span class="string">'object'</span>)    </span><br><span class="line"><span class="comment">#根据列表创建Series，index用来自定义索引</span></span><br><span class="line">s3=pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],index=[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>])</span><br><span class="line">s3</span><br><span class="line">Out[<span class="number">29</span>]: </span><br><span class="line">a    <span class="number">1</span></span><br><span class="line">b    <span class="number">2</span></span><br><span class="line">c    <span class="number">3</span></span><br><span class="line">d    <span class="number">4</span></span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改值"><a href="#修改值" class="headerlink" title="修改值"></a>修改值</h2><ul>
+<li>可以根据索引修改</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s3=pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],index=[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>])</span><br><span class="line">s3[<span class="number">0</span>]=<span class="number">10</span>或s3[<span class="string">'a'</span>]=<span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意series的索引可以重复，如果索引重复并且相邻，就会出现问题。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">s3=pd.Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],index=[<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>])</span><br><span class="line">s3[<span class="string">'a'</span>]</span><br><span class="line">Out[<span class="number">39</span>]: </span><br><span class="line">a    <span class="number">1</span></span><br><span class="line">a    <span class="number">2</span></span><br><span class="line">dtype: int64</span><br><span class="line"><span class="comment">#注意这时候如果用下标，则会出现问题    </span></span><br><span class="line"> s3[<span class="number">0</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line"></span><br><span class="line">  File <span class="string">"&lt;ipython-input-40-e48481fcb92e&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    s3[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">  File <span class="string">"E:\Anaconda\lib\site-packages\pandas\core\series.py"</span>, line <span class="number">1068</span>, <span class="keyword">in</span> __getitem__</span><br><span class="line">    result = self.index.get_value(self, key)</span><br><span class="line"></span><br><span class="line">  File <span class="string">"E:\Anaconda\lib\site-packages\pandas\core\indexes\base.py"</span>, line <span class="number">4750</span>, <span class="keyword">in</span> get_value</span><br><span class="line">    <span class="keyword">raise</span> IndexError(key)</span><br><span class="line"></span><br><span class="line">IndexError: <span class="number">0</span></span><br><span class="line"><span class="comment">#这时候可以这样取值</span></span><br><span class="line"></span><br><span class="line">s3[[<span class="number">0</span>]]</span><br><span class="line">Out[<span class="number">41</span>]: </span><br><span class="line">a    <span class="number">1</span></span><br><span class="line">dtype: int64</span><br><span class="line"></span><br><span class="line">s3[[<span class="number">1</span>]]</span><br><span class="line">Out[<span class="number">42</span>]: </span><br><span class="line">a    <span class="number">2</span></span><br><span class="line">dtype: int64</span><br><span class="line"></span><br><span class="line">s3[[<span class="number">3</span>]]</span><br><span class="line">Out[<span class="number">43</span>]: </span><br><span class="line">d    <span class="number">4</span></span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用操作"><a href="#常用操作" class="headerlink" title="常用操作"></a>常用操作</h2><p>Serious的操作也是元素级别的，不需要循环就可以对整体进行操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">s1=pd.Series([<span class="number">1</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">6</span>,<span class="number">-8</span>,<span class="number">-4</span>,<span class="number">-65</span>])</span><br><span class="line">s1</span><br><span class="line">Out[<span class="number">47</span>]: </span><br><span class="line"><span class="number">0</span>     <span class="number">1</span></span><br><span class="line"><span class="number">1</span>     <span class="number">5</span></span><br><span class="line"><span class="number">2</span>     <span class="number">8</span></span><br><span class="line"><span class="number">3</span>     <span class="number">6</span></span><br><span class="line"><span class="number">4</span>    <span class="number">-8</span></span><br><span class="line"><span class="number">5</span>    <span class="number">-4</span></span><br><span class="line"><span class="number">6</span>   <span class="number">-65</span></span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>abs(s1)</code>  #求绝对值</li>
+<li>s1+5  #所有元素+5</li>
+<li>s1.add_suffix(‘_name’) #每行索引后加上’__name’</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Out[<span class="number">49</span>]: </span><br><span class="line"><span class="number">0</span>_name     <span class="number">1</span></span><br><span class="line"><span class="number">1</span>_name     <span class="number">5</span></span><br><span class="line"><span class="number">2</span>_name     <span class="number">8</span></span><br><span class="line"><span class="number">3</span>_name     <span class="number">6</span></span><br><span class="line"><span class="number">4</span>_name    <span class="number">-8</span></span><br><span class="line"><span class="number">5</span>_name    <span class="number">-4</span></span><br><span class="line"><span class="number">6</span>_name   <span class="number">-65</span></span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>s2.argmax()   #最大值索引</li>
+<li>s2[s2&gt;90]  #筛选大于90以上的数据</li>
+</ul>
+<p>还有很多很多操作，这里仅仅是几个例子。</p>
+<h1 id="时间序列与常用操作"><a href="#时间序列与常用操作" class="headerlink" title="时间序列与常用操作."></a>时间序列与常用操作.</h1><p>时间序列对象用pandas的date_range()函数生成</p>
+<ul>
+<li>格式：<code>data_range(start=None,end=None,periods=None,freq=&#39;D&#39;,tz=None,normalize=False,name=None,closed=None,**kwargs)</code><ul>
+<li>start和end分别用来指定起止日期时间。</li>
+<li>periods用来指定要生成的数据数量。</li>
+<li>freq用来指定时间间隔，默认为D，表示天，W表示周，H表示小时，M表示月末最后一天，MS表示月初第一天，T表示分钟，Y表示年末最后一天，YS表示年初第一天。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data=pd.date_range(start=<span class="string">'20190601'</span>,end=<span class="string">'20190630'</span>,freq=<span class="string">'5D'</span>)</span><br><span class="line">data</span><br><span class="line">Out[<span class="number">2</span>]: </span><br><span class="line">DatetimeIndex([<span class="string">'2019-06-01'</span>, <span class="string">'2019-06-06'</span>, <span class="string">'2019-06-11'</span>, <span class="string">'2019-06-16'</span>,</span><br><span class="line">               <span class="string">'2019-06-21'</span>, <span class="string">'2019-06-26'</span>],</span><br><span class="line">              dtype=<span class="string">'datetime64[ns]'</span>, freq=<span class="string">'5D'</span>)</span><br><span class="line">data=pd.date_range(start=<span class="string">'20190601'</span>,periods=<span class="number">5</span>,freq=<span class="string">'2D'</span>)</span><br><span class="line">data</span><br><span class="line">Out[<span class="number">4</span>]: </span><br><span class="line">DatetimeIndex([<span class="string">'2019-06-01'</span>, <span class="string">'2019-06-03'</span>, <span class="string">'2019-06-05'</span>, <span class="string">'2019-06-07'</span>,</span><br><span class="line">               <span class="string">'2019-06-09'</span>],</span><br><span class="line">              dtype=<span class="string">'datetime64[ns]'</span>, freq=<span class="string">'2D'</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="二维数组DataFrame"><a href="#二维数组DataFrame" class="headerlink" title="二维数组DataFrame"></a>二维数组DataFrame</h1><p>Dataframe时pandas最常用的数据结构之一。每个Dataframe对象可看成一个二维表格由索引(index)，列名(colnums)和值(values)三部分组成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df=pd.DataFrame(&#123;<span class="string">'语文'</span>:[<span class="number">87</span>,<span class="number">79</span>,<span class="number">67</span>,<span class="number">92</span>],</span><br><span class="line">                 <span class="string">'数学'</span>:[<span class="number">93</span>,<span class="number">89</span>,<span class="number">80</span>,<span class="number">77</span>],</span><br><span class="line">                 <span class="string">'英语'</span>:[<span class="number">90</span>,<span class="number">80</span>,<span class="number">70</span>,<span class="number">75</span>]&#125;,</span><br><span class="line">                index=[<span class="string">'张三'</span>,<span class="string">'李四'</span>,<span class="string">'王五'</span>,<span class="string">'张柳'</span>])</span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">    语文  数学  英语</span><br><span class="line">张三  <span class="number">87</span>  <span class="number">93</span>  <span class="number">90</span></span><br><span class="line">李四  <span class="number">79</span>  <span class="number">89</span>  <span class="number">80</span></span><br><span class="line">王五  <span class="number">67</span>  <span class="number">80</span>  <span class="number">70</span></span><br><span class="line">张柳  <span class="number">92</span>  <span class="number">77</span>  <span class="number">75</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Dataframe数据处理与分析"><a href="#Dataframe数据处理与分析" class="headerlink" title="Dataframe数据处理与分析"></a>Dataframe数据处理与分析</h2><p>案例文件<a href="https://leecode1024.oss-cn-qingdao.aliyuncs.com/shujufenxi/%E8%B6%85%E5%B8%82%E8%90%A5%E4%B8%9A%E9%A2%9D2.xlsx" target="_blank" rel="noopener">https://leecode1024.oss-cn-qingdao.aliyuncs.com/shujufenxi/%E8%B6%85%E5%B8%82%E8%90%A5%E4%B8%9A%E9%A2%9D2.xlsx</a></p>
+<h2 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h2><p>pandas提供了读取各种文件的方法，例如excel文件，read_excel()  ,csv文件使用read_csv()等等。。。</p>
+<ul>
+<li><code>read_excel(io,sheetname=0,headers=0,skiprowsNone,indexcol=None,names=None,thousands=None,usecols=None,na_values=None,coverters=None)</code>这里仅仅列举了部分参数！<ul>
+<li><strong>io</strong>,用来指定要读取的Excel文件，可以是路径或url文件对象。</li>
+<li><strong>sheetname</strong>，用来指定要读取的worksheet，可以指定worksheet的整数序号，或者字符串名称。如果读取多个，形如[0,1,’sheet3’]的列表，如果指定该参数为None，则表示读取所有，并返回包含多个Data Frame结构的字典，默认为0.</li>
+<li><strong>headers</strong>，用来指定worksheet中表示表头或列名的行索引，默认为0，如果没有表头行，则必须显示指定headers=None。</li>
+<li><strong>skiprows</strong>，用来指定要跳过的行索引组成的列表。</li>
+<li><strong>index_col</strong>，用来指定作为DataFrame索引的列下标。可以是包含多个列下标的列表。</li>
+<li><strong>names</strong>，用来指定读取数据后使用的列名。</li>
+<li><strong>thousands</strong>，用来指定文本转换为数字时的千分符。</li>
+<li><strong>usecols</strong>，用来指定要读取列的索引或名字。</li>
+<li><strong>na_values</strong>，用来指定哪些值被解释为缺失值。</li>
+<li><strong>coverters</strong>，用来在读取时，转换数据类型，例如：数字类型，在读取时直接转换成字符串类型。coverters{列1:类型,列2:类型}</li>
+</ul>
+</li>
+<li>read_csv(参数列表)<ul>
+<li><strong>sep</strong>，指定分隔符。如果不指定参数，则会尝试使用逗号分隔。分隔符长于一个字符并且不是‘\s+’,将使用python的语法分析器。并且忽略数据中的逗号。正则表达式例子：’\r\t’</li>
+<li><strong>delimiter</strong>，定界符，备选分隔符（如果指定该参数，则sep参数失效）</li>
+<li><strong>header</strong> ，指定行数用来作为列名，数据开始行数。如果文件中没有列名，则默认为0，否则设置为None。如果明确设定header=0 就会替换掉原来存在列名</li>
+<li><strong>names</strong> ，用于结果的列名列表，如果数据文件中没有列标题行，就需要执行header=None。默认列表中不能出现重复，除非设定参数mangle_dupe_cols=True。</li>
+<li><strong>index_col</strong> ，用作行索引的列编号或者列名，如果给定一个序列则有多个行索引。</li>
+<li><strong>usecols</strong> ，返回一个数据子集，该列表中的值必须可以对应到文件中的位置（数字可以对应到指定的列）或者是字符传为文件中的列名。例如：usecols有效参数可能是 [0,1,2]或者是 [‘foo’, ‘bar’, ‘baz’]。使用这个参数可以加快加载速度并降低内存消耗。</li>
+<li><strong>squeeze</strong> : boolean, default False，如果文件值包含一列，则返回一个Series</li>
+<li><strong>prefix</strong> : str, default None，在没有列标题时，给列添加前缀。例如：添加‘X’ 成为 X0, X1, …</li>
+<li><strong>mangle_dupe_cols</strong> : boolean, default True，重复的列，将‘X’…’X’表示为‘X.0’…’X.N’。如果设定为false则会将所有重名列覆盖。</li>
+<li><strong>dtype</strong> : Type name or dict of column -&gt; type, default None，每列数据的数据类型。例如 {‘a’: np.float64, ‘b’: np.int32}</li>
+<li><strong>converters</strong> : dict, default None，列转换函数的字典。key可以是列名或者列的序号。</li>
+<li><strong>nrows</strong> : int, default None，需要读取的行数（从文件头开始算起）。</li>
+<li><strong>iterator</strong> : boolean, default False，返回一个TextFileReader 对象，以便逐块处理文件。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">data = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br><span class="line">print(data)</span><br><span class="line">       工号  姓名          日期           时段     交易额    柜台</span><br><span class="line"><span class="number">0</span>    <span class="number">1001</span>  张三  <span class="number">2019</span><span class="number">-03</span><span class="number">-01</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>  <span class="number">1664.0</span>   化妆品</span><br><span class="line"><span class="number">1</span>    <span class="number">1002</span>  李四  <span class="number">2019</span><span class="number">-03</span><span class="number">-01</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>   <span class="number">954.0</span>   化妆品</span><br><span class="line"><span class="number">2</span>    <span class="number">1003</span>  王五  <span class="number">2019</span><span class="number">-03</span><span class="number">-01</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>  <span class="number">1407.0</span>    食品</span><br><span class="line"><span class="number">3</span>    <span class="number">1004</span>  赵六  <span class="number">2019</span><span class="number">-03</span><span class="number">-01</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1320.0</span>    食品</span><br><span class="line"><span class="number">4</span>    <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-01</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>   <span class="number">994.0</span>   日用品</span><br><span class="line">..    ...  ..         ...          ...     ...   ...</span><br><span class="line"><span class="number">244</span>  <span class="number">1002</span>  李四  <span class="number">2019</span><span class="number">-03</span><span class="number">-31</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>   <span class="number">859.0</span>  蔬菜水果</span><br><span class="line"><span class="number">245</span>  <span class="number">1004</span>  赵六  <span class="number">2019</span><span class="number">-03</span><span class="number">-31</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>  <span class="number">1668.0</span>   日用品</span><br><span class="line"><span class="number">246</span>  <span class="number">1004</span>  赵六  <span class="number">2019</span><span class="number">-03</span><span class="number">-31</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1722.0</span>   日用品</span><br><span class="line"><span class="number">247</span>  <span class="number">1003</span>  王五  <span class="number">2019</span><span class="number">-03</span><span class="number">-31</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>  <span class="number">1274.0</span>    食品</span><br><span class="line"><span class="number">248</span>  <span class="number">1006</span>  钱八  <span class="number">2019</span><span class="number">-03</span><span class="number">-31</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>   <span class="number">812.0</span>    食品</span><br><span class="line"></span><br><span class="line">[<span class="number">249</span> rows x <span class="number">6</span> columns]</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据筛选"><a href="#数据筛选" class="headerlink" title="数据筛选"></a>数据筛选</h2><ul>
+<li><p>DataFrame结构支持对行和列进行切片，也支持访问特定的行、列对应的数据，或者访问符合条件的数据。</p>
+</li>
+<li><p>使用下标和切片访问指定行和列的数据，用户还可以使用布尔数组作为下标访问符合条件的数据。</p>
+</li>
+<li><p>DataFrame结构还提供了loc,iloc,at,iat等访问器来访问指定数据。</p>
+<ul>
+<li>其中loc,at使用标签来访问行和列。</li>
+<li>iloc,iat使用整数来指定行、列下标。</li>
+<li>iloc和iat只关心位置，即：第一行，第二行，而不关心具体索引的值。</li>
+<li>at和iat的访问速度更快，但只能访问单个值。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#交易额大于某数  这里的df.列名和df['列名']效果一样，这样相当于传入了一个布尔数组进行筛选。</span></span><br><span class="line">df[df.交易额&gt;<span class="number">1700</span>] 或df[df[<span class="string">'交易额'</span>]&gt;<span class="number">1700</span>]  </span><br><span class="line"><span class="comment">#张三下午班交易情况 或与非逻辑运算 &amp;,|,!</span></span><br><span class="line">df[  (df.姓名==<span class="string">'张三'</span>) &amp; (df.时段==<span class="string">'14：00-21：00'</span>) ]</span><br><span class="line"><span class="comment">#查看张三，李四两人销售总额 isin()可以用来筛选在另外一组数据中的内容</span></span><br><span class="line">df[df[<span class="string">'姓名'</span>].isin([<span class="string">'张三'</span>,<span class="string">'李四'</span>])][<span class="string">'交易额'</span>].sum()</span><br><span class="line"><span class="comment">#交易额在指定范围内的记录</span></span><br><span class="line">df[df[<span class="string">'交易额'</span>].between(<span class="number">800</span>,<span class="number">850</span>)]</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看数据特征和统计信息"><a href="#查看数据特征和统计信息" class="headerlink" title="查看数据特征和统计信息"></a>查看数据特征和统计信息</h2><p>在分析数据时，有时需要查看数据的数量、平均值、标准差、最大值、最小值、四分位数等特征。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.ambiguous_as_wide'</span>,<span class="literal">True</span>)<span class="comment">#对齐</span></span><br><span class="line">pd.set_option(<span class="string">'display.unicode.east_asian_width'</span>,<span class="literal">True</span>)</span><br><span class="line">data = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'交易额'</span>].describe()  <span class="comment">#查看交易额统计信息</span></span><br><span class="line">Out[<span class="number">8</span>]: </span><br><span class="line">count      <span class="number">246.000000</span></span><br><span class="line">mean      <span class="number">1330.313008</span></span><br><span class="line">std        <span class="number">904.300720</span></span><br><span class="line">min         <span class="number">53.000000</span></span><br><span class="line"><span class="number">25</span>%       <span class="number">1031.250000</span></span><br><span class="line"><span class="number">50</span>%       <span class="number">1259.000000</span></span><br><span class="line"><span class="number">75</span>%       <span class="number">1523.000000</span></span><br><span class="line">max      <span class="number">12100.000000</span></span><br><span class="line">Name: 交易额, dtype: float64</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'交易额'</span>].quantile([<span class="number">0</span>,<span class="number">0.25</span>,<span class="number">0.5</span>,<span class="number">0.75</span>,<span class="number">1</span>])  <span class="comment">#查看交易额四分位数</span></span><br><span class="line">Out[<span class="number">10</span>]: </span><br><span class="line"><span class="number">0.00</span>       <span class="number">53.00</span></span><br><span class="line"><span class="number">0.25</span>     <span class="number">1031.25</span></span><br><span class="line"><span class="number">0.50</span>     <span class="number">1259.00</span></span><br><span class="line"><span class="number">0.75</span>     <span class="number">1523.00</span></span><br><span class="line"><span class="number">1.00</span>    <span class="number">12100.00</span></span><br><span class="line">Name: 交易额, dtype: float64</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">'交易额'</span>].median()  <span class="comment">#查看交易额中值</span></span><br><span class="line">Out[<span class="number">11</span>]: <span class="number">1259.0</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data.nsmallest(<span class="number">3</span>,<span class="string">'交易额'</span>)<span class="comment">#交易额最小的三条记录</span></span><br><span class="line">Out[<span class="number">12</span>]: </span><br><span class="line">     工号  姓名        日期           时段  交易额    柜台</span><br><span class="line"><span class="number">76</span>   <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-10</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>    <span class="number">53.0</span>  日用品</span><br><span class="line"><span class="number">97</span>   <span class="number">1002</span>  李四  <span class="number">2019</span><span class="number">-03</span><span class="number">-13</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>    <span class="number">98.0</span>  日用品</span><br><span class="line"><span class="number">194</span>  <span class="number">1001</span>  张三  <span class="number">2019</span><span class="number">-03</span><span class="number">-25</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>   <span class="number">114.0</span>  化妆品</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">data.nlargest(<span class="number">5</span>,<span class="string">'交易额'</span>)<span class="comment">#交易额最大的五条记录</span></span><br><span class="line">Out[<span class="number">13</span>]: </span><br><span class="line">     工号  姓名        日期           时段   交易额      柜台</span><br><span class="line"><span class="number">105</span>  <span class="number">1001</span>  张三  <span class="number">2019</span><span class="number">-03</span><span class="number">-14</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>  <span class="number">12100.0</span>    日用品</span><br><span class="line"><span class="number">223</span>  <span class="number">1003</span>  王五  <span class="number">2019</span><span class="number">-03</span><span class="number">-28</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>   <span class="number">9031.0</span>      食品</span><br><span class="line"><span class="number">113</span>  <span class="number">1002</span>  李四  <span class="number">2019</span><span class="number">-03</span><span class="number">-15</span>   <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>   <span class="number">1798.0</span>    日用品</span><br><span class="line"><span class="number">188</span>  <span class="number">1002</span>  李四  <span class="number">2019</span><span class="number">-03</span><span class="number">-24</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>   <span class="number">1793.0</span>  蔬菜水果</span><br><span class="line"><span class="number">136</span>  <span class="number">1001</span>  张三  <span class="number">2019</span><span class="number">-03</span><span class="number">-17</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>   <span class="number">1791.0</span>      食品</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'最后一个日期'</span>.ljust(<span class="number">20</span>,<span class="string">'-'</span>))</span><br><span class="line">print(df[<span class="string">'日期'</span>].max())</span><br><span class="line">print(<span class="string">'最小工号'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df[<span class="string">'工号'</span>].min())</span><br><span class="line">print(<span class="string">'第一个最小交易额的行下标'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">index=df[<span class="string">'交易额'</span>].idxmin()</span><br><span class="line">print(index)</span><br><span class="line">print(<span class="string">'第一个最小交易额'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df.loc[index,<span class="string">'交易额'</span>])</span><br><span class="line">print(<span class="string">'第一个最da交易额的行下标'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">index=df[<span class="string">'交易额'</span>].idxmax()</span><br><span class="line">print(index)</span><br><span class="line">print(<span class="string">'第一个最大交易额'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df.loc[index,<span class="string">'交易额'</span>])</span><br><span class="line">结果：</span><br><span class="line">最后一个日期--------------</span><br><span class="line"><span class="number">2019</span><span class="number">-03</span><span class="number">-31</span></span><br><span class="line">最小工号================</span><br><span class="line"><span class="number">1001</span></span><br><span class="line">第一个最小交易额的行下标========</span><br><span class="line"><span class="number">76</span></span><br><span class="line">第一个最小交易额============</span><br><span class="line"><span class="number">53.0</span></span><br><span class="line">第一个最da交易额的行下标=======</span><br><span class="line"><span class="number">105</span></span><br><span class="line">第一个最大交易额============</span><br><span class="line"><span class="number">12100.0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据排序"><a href="#数据排序" class="headerlink" title="数据排序"></a>数据排序</h2><ul>
+<li><code>sort_index(axis=0,level=None,ascending=True,implace=False,kind=&#39;quicksort&#39;,na_position=&#39;last&#39;,sort_remaining=True,by=None)</code><ul>
+<li>axie=0表示根据行索引标签进行排序，axis=1表示根据列名。</li>
+<li>ascending=True代表升序，False代表降序。</li>
+<li>inplace=True表示原地排序，False表示返回新DataFrame。</li>
+</ul>
+</li>
+<li><code>sort_values(by,axis=0,ascending=True,inplace=False,kind=&#39;quicksort&#39;,na_position=&#39;last&#39;)</code><ul>
+<li>by用来指定依据那个或那些列进行排序by=***或by=[a,b,c]。</li>
+<li>ascending=True代表升序，False代表降序。如果ascending设置为包含若干True/False的列表（必须与by指定的列表等长），则可以为不同的列指定不同的排序。</li>
+<li>np_position用来指定把缺失值放在最前面（np_position=’first’）还是最后面（np_position=’last’）。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.ambiguous_as_wide'</span>,<span class="literal">True</span>)</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.east_asian_width'</span>,<span class="literal">True</span>)</span><br><span class="line">df = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br><span class="line">print(<span class="string">'按交易额和工号降序排序'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df.sort_values(by=[<span class="string">'交易额'</span>,<span class="string">'工号'</span>],ascending=<span class="literal">False</span>)[:<span class="number">12</span>])</span><br><span class="line">print(<span class="string">'按交易额降序，工号升序'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df.sort_values(by=[<span class="string">'交易额'</span>,<span class="string">'工号'</span>],ascending=[<span class="literal">False</span>,<span class="literal">True</span>])[:<span class="number">12</span>])</span><br><span class="line">print(<span class="string">'按工号升序'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df.sort_values(by=<span class="string">'工号'</span>,na_position=<span class="string">'last'</span>)[:<span class="number">10</span>])</span><br><span class="line">print(<span class="string">'按列名升序排序'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line"><span class="comment">#注意，这里是按汉字的unicode编码排序·</span></span><br><span class="line">print(df.sort_index(axis=<span class="number">1</span>,ascending=<span class="literal">True</span>)[:<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">结果：</span><br><span class="line">按交易额和工号降序排序&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">     工号  姓名        日期           时段   交易额      柜台</span><br><span class="line">105  1001  张三  2019-03-14   9：00-14：00  12100.0    日用品</span><br><span class="line">223  1003  王五  2019-03-28   9：00-14：00   9031.0      食品</span><br><span class="line">113  1002  李四  2019-03-15   9：00-14：00   1798.0    日用品</span><br><span class="line">188  1002  李四  2019-03-24  14：00-21：00   1793.0  蔬菜水果</span><br><span class="line">136  1001  张三  2019-03-17  14：00-21：00   1791.0      食品</span><br><span class="line">121  1002  李四  2019-03-16   9：00-14：00   1788.0    日用品</span><br><span class="line">47   1005  周七  2019-03-06  14：00-21：00   1778.0  蔬菜水果</span><br><span class="line">185  1004  赵六  2019-03-24   9：00-14：00   1775.0    化妆品</span><br><span class="line">205  1001  张三  2019-03-26   9：00-14：00   1746.0    日用品</span><br><span class="line">82   1006  钱八  2019-03-11   9：00-14：00   1737.0      食品</span><br><span class="line">227  1005  周七  2019-03-29   9：00-14：00   1737.0  蔬菜水果</span><br><span class="line">246  1004  赵六  2019-03-31  14：00-21：00   1722.0    日用品</span><br><span class="line">按交易额降序，工号升序&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">     工号  姓名        日期           时段   交易额      柜台</span><br><span class="line">105  1001  张三  2019-03-14   9：00-14：00  12100.0    日用品</span><br><span class="line">223  1003  王五  2019-03-28   9：00-14：00   9031.0      食品</span><br><span class="line">113  1002  李四  2019-03-15   9：00-14：00   1798.0    日用品</span><br><span class="line">188  1002  李四  2019-03-24  14：00-21：00   1793.0  蔬菜水果</span><br><span class="line">136  1001  张三  2019-03-17  14：00-21：00   1791.0      食品</span><br><span class="line">121  1002  李四  2019-03-16   9：00-14：00   1788.0    日用品</span><br><span class="line">47   1005  周七  2019-03-06  14：00-21：00   1778.0  蔬菜水果</span><br><span class="line">185  1004  赵六  2019-03-24   9：00-14：00   1775.0    化妆品</span><br><span class="line">205  1001  张三  2019-03-26   9：00-14：00   1746.0    日用品</span><br><span class="line">227  1005  周七  2019-03-29   9：00-14：00   1737.0  蔬菜水果</span><br><span class="line">82   1006  钱八  2019-03-11   9：00-14：00   1737.0      食品</span><br><span class="line">246  1004  赵六  2019-03-31  14：00-21：00   1722.0    日用品</span><br><span class="line">按工号升序&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">     工号  姓名        日期           时段  交易额      柜台</span><br><span class="line">0    1001  张三  2019-03-01   9：00-14：00  1664.0    化妆品</span><br><span class="line">178  1001  张三  2019-03-23  14：00-21：00  1271.0    化妆品</span><br><span class="line">39   1001  张三  2019-03-05  14：00-21：00   856.0  蔬菜水果</span><br><span class="line">40   1001  张三  2019-03-06   9：00-14：00  1037.0    化妆品</span><br><span class="line">177  1001  张三  2019-03-23   9：00-14：00  1296.0    化妆品</span><br><span class="line">169  1001  张三  2019-03-22   9：00-14：00   946.0    化妆品</span><br><span class="line">160  1001  张三  2019-03-20  14：00-21：00   829.0      食品</span><br><span class="line">54   1001  张三  2019-03-07   9：00-14：00  1263.0  蔬菜水果</span><br><span class="line">157  1001  张三  2019-03-20   9：00-14：00  1037.0    日用品</span><br><span class="line">225  1001  张三  2019-03-29  14：00-21：00  1523.0    化妆品</span><br><span class="line">按列名升序排序&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">   交易额  姓名  工号        日期           时段      柜台</span><br><span class="line">0  1664.0  张三  1001  2019-03-01   9：00-14：00    化妆品</span><br><span class="line">1   954.0  李四  1002  2019-03-01  14：00-21：00    化妆品</span><br><span class="line">2  1407.0  王五  1003  2019-03-01   9：00-14：00      食品</span><br><span class="line">3  1320.0  赵六  1004  2019-03-01  14：00-21：00      食品</span><br><span class="line">4   994.0  周七  1005  2019-03-01   9：00-14：00    日用品</span><br><span class="line">5  1421.0  钱八  1006  2019-03-01  14：00-21：00    日用品</span><br><span class="line">6  1226.0  钱八  1006  2019-03-01   9：00-14：00  蔬菜水果</span><br><span class="line">7  1442.0  张三  1001  2019-03-01  14：00-21：00  蔬菜水果</span><br><span class="line">8  1530.0  张三  1001  2019-03-02   9：00-14：00    化妆品</span><br><span class="line">9  1395.0  李四  1002  2019-03-02  14：00-21：00</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常值、缺失值、重复值的处理"><a href="#异常值、缺失值、重复值的处理" class="headerlink" title="异常值、缺失值、重复值的处理"></a>异常值、缺失值、重复值的处理</h2><h3 id="异常值"><a href="#异常值" class="headerlink" title="异常值"></a>异常值</h3><p>异常值是指眼中超出正常范围的数值，这样的数据一般是数据采集错误或类似原因造成的。在数据分析时，需要把这些数据删除或替换成特定的值，减小对最终数据分析结果的影响。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.ambiguous_as_wide'</span>,<span class="literal">True</span>)</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.east_asian_width'</span>,<span class="literal">True</span>)</span><br><span class="line">df = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br><span class="line"><span class="comment">#低于200的交易额固定为200</span></span><br><span class="line">df.loc[df.交易额&lt;<span class="number">200</span>,<span class="string">'交易额'</span>] = <span class="number">200</span></span><br><span class="line">print(<span class="string">'交易额低于200或高于3000的数据'</span>.ljust(<span class="number">30</span>,<span class="string">'='</span>))</span><br><span class="line">print(df[(df[<span class="string">'交易额'</span>]&lt;<span class="number">200</span>) | (df[<span class="string">'交易额'</span>]&gt;<span class="number">3000</span>)])</span><br><span class="line"><span class="comment">#高于3000的交易额固定为3000</span></span><br><span class="line">df.loc[df.交易额&gt;<span class="number">3000</span>,<span class="string">'交易额'</span>] = <span class="number">3000</span></span><br><span class="line">print(<span class="string">'低于200或大于3000的数量'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df[(df[<span class="string">'交易额'</span>]&lt;<span class="number">200</span>) | (df[<span class="string">'交易额'</span>]&gt;<span class="number">3000</span>)][<span class="string">'交易额'</span>].count())</span><br><span class="line">结果：---------------------------------------------------------------------------</span><br><span class="line">交易额低于<span class="number">200</span>或高于<span class="number">3000</span>的数据============</span><br><span class="line">     工号  姓名        日期          时段   交易额    柜台</span><br><span class="line"><span class="number">105</span>  <span class="number">1001</span>  张三  <span class="number">2019</span><span class="number">-03</span><span class="number">-14</span>  <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>  <span class="number">12100.0</span>  日用品</span><br><span class="line"><span class="number">223</span>  <span class="number">1003</span>  王五  <span class="number">2019</span><span class="number">-03</span><span class="number">-28</span>  <span class="number">9</span>：<span class="number">00</span><span class="number">-14</span>：<span class="number">00</span>   <span class="number">9031.0</span>    食品</span><br><span class="line">低于<span class="number">200</span>或大于<span class="number">3000</span>的数量=====</span><br><span class="line"><span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="缺失值"><a href="#缺失值" class="headerlink" title="缺失值"></a>缺失值</h3><p>由于人为失误或机器故障的缘由，可能会导致某些数据丢失。在数据分析时应注意检查有没有缺失值，如果有则将其删除或替换成特定值。</p>
+<ul>
+<li><code>dropna(axis=0,how=&#39;any&#39;,thresh=None,subset=None,inplace=False)</code><strong>丢弃</strong>带有缺失值的行<ul>
+<li>how=’any’时表示只要某行包含缺失值就丢弃，how=’all’时表示，某行全部为缺失值时才丢弃。</li>
+<li>thresh用来指定保留包含几个非缺失值数据的行。</li>
+<li>subset用来指定在判断缺失值时只考虑那些列。</li>
+</ul>
+</li>
+<li><code>fillna(value=None,method=None,axis=None,inplace=False,limit=None,downcast=None,**kwargs)</code><strong>填充缺失值</strong><ul>
+<li>value用来指定要替换的值，可以是标量，字典，Series或DataFrame。</li>
+<li>method用来指定填充缺失值的方式，值为<strong>pad或ffill</strong>时表示使用扫描过程中遇到的最后一个有效值一直填充到下一个有效值，值为<strong>backfill或bfill</strong>时表示使用缺失值之后遇到的第一个有效值填充前面遇到的所有连续缺失值。</li>
+<li>limit用来指定设置了参数method时最多填充多少个连续的缺失值。</li>
+<li>implace=True表示原地替换，False返回新DataFrame，原来数据不变。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> deepcopy</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.ambiguous_as_wide'</span>,<span class="literal">True</span>)</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.east_asian_width'</span>,<span class="literal">True</span>)</span><br><span class="line">df = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br><span class="line">print(<span class="string">'总行数'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(len(df))</span><br><span class="line">print(<span class="string">'丢弃缺失值之后行数'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(len(df.dropna()))</span><br><span class="line">print(<span class="string">'包含缺失值的行'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(df[df.交易额.isnull()])</span><br><span class="line">print(<span class="string">'使用固定值替换缺失值'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line"><span class="comment">#深复制，不影响原来df</span></span><br><span class="line">dff=deepcopy(df)</span><br><span class="line">dff.loc[dff.交易额.isnull(),<span class="string">'交易额'</span>] = <span class="number">1000</span></span><br><span class="line">print(dff.iloc[[<span class="number">110</span>,<span class="number">124</span>,<span class="number">168</span>],:])</span><br><span class="line"></span><br><span class="line">print(<span class="string">'使用每个人的交易额均值替换缺失值'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">dff=deepcopy(df)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> dff[dff.交易额.isnull()].index:</span><br><span class="line">    dff.loc[i,<span class="string">'交易额'</span>] = round(dff.loc[dff.姓名==dff.loc[i,<span class="string">'姓名'</span>],<span class="string">'交易额'</span>].mean())</span><br><span class="line"></span><br><span class="line">print(dff.iloc[[<span class="number">110</span>,<span class="number">124</span>,<span class="number">168</span>],:])</span><br><span class="line"></span><br><span class="line">print(<span class="string">'使用整体均值的80%填充缺失值'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">df.fillna(&#123;<span class="string">'交易额'</span>:round(df[<span class="string">'交易额'</span>].mean()*<span class="number">0.8</span>)&#125;,inplace=<span class="literal">True</span>)</span><br><span class="line">print(dff.iloc[[<span class="number">110</span>,<span class="number">124</span>,<span class="number">168</span>],:])</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">总行数=================</span><br><span class="line"><span class="number">249</span></span><br><span class="line">丢弃缺失值之后行数===========</span><br><span class="line"><span class="number">246</span></span><br><span class="line">包含缺失值的行=============</span><br><span class="line">     工号  姓名        日期           时段  交易额    柜台</span><br><span class="line"><span class="number">110</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-14</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>     NaN  化妆品</span><br><span class="line"><span class="number">124</span>  <span class="number">1006</span>  钱八  <span class="number">2019</span><span class="number">-03</span><span class="number">-16</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>     NaN    食品</span><br><span class="line"><span class="number">168</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-21</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>     NaN    食品</span><br><span class="line">使用固定值替换缺失值==========</span><br><span class="line">     工号  姓名        日期           时段  交易额    柜台</span><br><span class="line"><span class="number">110</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-14</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1000.0</span>  化妆品</span><br><span class="line"><span class="number">124</span>  <span class="number">1006</span>  钱八  <span class="number">2019</span><span class="number">-03</span><span class="number">-16</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1000.0</span>    食品</span><br><span class="line"><span class="number">168</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-21</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1000.0</span>    食品</span><br><span class="line">使用每个人的交易额均值替换缺失值====</span><br><span class="line">     工号  姓名        日期           时段  交易额    柜台</span><br><span class="line"><span class="number">110</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-14</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1195.0</span>  化妆品</span><br><span class="line"><span class="number">124</span>  <span class="number">1006</span>  钱八  <span class="number">2019</span><span class="number">-03</span><span class="number">-16</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1323.0</span>    食品</span><br><span class="line"><span class="number">168</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-21</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1195.0</span>    食品</span><br><span class="line">使用整体均值的<span class="number">80</span>%填充缺失值=====</span><br><span class="line">     工号  姓名        日期           时段  交易额    柜台</span><br><span class="line"><span class="number">110</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-14</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1195.0</span>  化妆品</span><br><span class="line"><span class="number">124</span>  <span class="number">1006</span>  钱八  <span class="number">2019</span><span class="number">-03</span><span class="number">-16</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1323.0</span>    食品</span><br><span class="line"><span class="number">168</span>  <span class="number">1005</span>  周七  <span class="number">2019</span><span class="number">-03</span><span class="number">-21</span>  <span class="number">14</span>：<span class="number">00</span><span class="number">-21</span>：<span class="number">00</span>  <span class="number">1195.0</span>    食品</span><br></pre></td></tr></table></figure>
+
+<h3 id="重复值"><a href="#重复值" class="headerlink" title="重复值"></a>重复值</h3><p>当记录失误，可能会导致重复数据的时候，一般采取的处理方法是直接丢弃重复数据。</p>
+<ul>
+<li><code>duplicated(subset=None,keep=&#39;first&#39;)</code>检查哪些重复<ul>
+<li>subset用来指定判断不同行的数据是否重复时所依据的一列或多列，默认使用所有列的数据进行比较。</li>
+<li>keep=’first’时表示重复数据的第一次出现标记为False，keep=’last’表示最后一次出现标记为False，keep=False表示标记所有重复数据为True。</li>
+</ul>
+</li>
+<li><code>drop_duplicates(subset=None,keep=&#39;first&#39;,inplace=False)</code></li>
+</ul>
+<h2 id="分组与聚合"><a href="#分组与聚合" class="headerlink" title="分组与聚合"></a>分组与聚合</h2><h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><ul>
+<li><code>groupby(by=None,axis=0,level=None,as_index=True,sort=True,group_keys=True)</code><ul>
+<li>by用来指定作用于index的函数、字典、Series对象或者指定列名作为分组依据。</li>
+<li>as_index=False时，其结果有点类似于sql语句的查询结果。</li>
+<li>squeeze=True会在可能的情况下降低结果的维度。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df=pd.read_excel(<span class="string">'用水情况.xlsx'</span>,converters=&#123;<span class="string">'日期'</span>:str,<span class="string">'房号'</span>:str&#125;)</span><br><span class="line"></span><br><span class="line">df[<span class="string">'楼号'</span>]=[ item[<span class="number">0</span>:<span class="number">2</span>] <span class="keyword">for</span> item <span class="keyword">in</span> df[<span class="string">'房号'</span>]]</span><br><span class="line">df[<span class="string">'年份'</span>]=[ item[<span class="number">0</span>:<span class="number">4</span>] <span class="keyword">for</span> item <span class="keyword">in</span> df[<span class="string">'日期'</span>]]</span><br><span class="line">dff=df[df[<span class="string">'用水量（立方）'</span>].isnull()]</span><br><span class="line">dff=dff.groupby(<span class="string">'楼号'</span>)</span><br><span class="line"><span class="keyword">for</span> name,value <span class="keyword">in</span> dff:</span><br><span class="line">    df.loc[value.index,<span class="string">'用水量（立方）'</span>]=df[ df[<span class="string">'楼号'</span>]==name ][<span class="string">'用水量（立方）'</span>].mean()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">df4=df.groupby(by=[<span class="string">'年份'</span>,<span class="string">'房号'</span>,<span class="string">'楼号'</span>])[<span class="string">'用水量（立方）'</span>].sum()</span><br><span class="line">年份  房号    楼号</span><br><span class="line"><span class="number">2015</span>  <span class="number">010101</span>  <span class="number">01</span>    <span class="number">227.467979</span></span><br><span class="line">      <span class="number">010102</span>  <span class="number">01</span>    <span class="number">180.467979</span></span><br><span class="line">      <span class="number">010103</span>  <span class="number">01</span>    <span class="number">189.000000</span></span><br><span class="line">      <span class="number">010104</span>  <span class="number">01</span>    <span class="number">241.000000</span></span><br><span class="line">      <span class="number">010201</span>  <span class="number">01</span>    <span class="number">148.000000</span></span><br><span class="line">   </span><br><span class="line"><span class="number">2019</span>  <span class="number">663204</span>  <span class="number">66</span>    <span class="number">200.029439</span></span><br><span class="line">      <span class="number">663301</span>  <span class="number">66</span>    <span class="number">168.514719</span></span><br><span class="line">      <span class="number">663302</span>  <span class="number">66</span>    <span class="number">209.000000</span></span><br><span class="line">      <span class="number">663303</span>  <span class="number">66</span>    <span class="number">199.000000</span></span><br><span class="line">      <span class="number">663304</span>  <span class="number">66</span>    <span class="number">206.029439</span></span><br><span class="line">Name: 用水量（立方）, Length: <span class="number">43560</span>, dtype: float64</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">df1=df.groupby(by=[<span class="string">'年份'</span>,<span class="string">'房号'</span>,<span class="string">'楼号'</span>],as_index=<span class="literal">False</span>)[<span class="string">'用水量（立方）'</span>].sum()    </span><br><span class="line">       年份    房号 楼号  用水量（立方）</span><br><span class="line"><span class="number">0</span>      <span class="number">2015</span>  <span class="number">010101</span>   <span class="number">01</span>      <span class="number">227.467979</span></span><br><span class="line"><span class="number">1</span>      <span class="number">2015</span>  <span class="number">010102</span>   <span class="number">01</span>      <span class="number">180.467979</span></span><br><span class="line"><span class="number">2</span>      <span class="number">2015</span>  <span class="number">010103</span>   <span class="number">01</span>      <span class="number">189.000000</span></span><br><span class="line"><span class="number">3</span>      <span class="number">2015</span>  <span class="number">010104</span>   <span class="number">01</span>      <span class="number">241.000000</span></span><br><span class="line"><span class="number">4</span>      <span class="number">2015</span>  <span class="number">010201</span>   <span class="number">01</span>      <span class="number">148.000000</span></span><br><span class="line">    ...     ...  ...             ...</span><br><span class="line"><span class="number">43555</span>  <span class="number">2019</span>  <span class="number">663204</span>   <span class="number">66</span>      <span class="number">200.029439</span></span><br><span class="line"><span class="number">43556</span>  <span class="number">2019</span>  <span class="number">663301</span>   <span class="number">66</span>      <span class="number">168.514719</span></span><br><span class="line"><span class="number">43557</span>  <span class="number">2019</span>  <span class="number">663302</span>   <span class="number">66</span>      <span class="number">209.000000</span></span><br><span class="line"><span class="number">43558</span>  <span class="number">2019</span>  <span class="number">663303</span>   <span class="number">66</span>      <span class="number">199.000000</span></span><br><span class="line"><span class="number">43559</span>  <span class="number">2019</span>  <span class="number">663304</span>   <span class="number">66</span>      <span class="number">206.029439</span></span><br><span class="line"></span><br><span class="line">[<span class="number">43560</span> rows x <span class="number">4</span> columns]</span><br></pre></td></tr></table></figure>
+
+<p>上面就是as_index的区别。</p>
+<h3 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h3><ul>
+<li>内置聚合函数sum(),mean(),max(),min(),size(),describe()…等等</li>
+<li>agg()函数可以传入一个字典，表示哪一列，怎样聚合，例如：agg({‘A’:sum,’B’:mean,….})</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> copy <span class="keyword">import</span> deepcopy</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.ambiguous_as_wide'</span>,<span class="literal">True</span>)</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.east_asian_width'</span>,<span class="literal">True</span>)</span><br><span class="line">df = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br><span class="line"></span><br><span class="line">df.groupby(by=<span class="string">'姓名'</span>).agg([<span class="string">'max'</span>,<span class="string">'min'</span>,<span class="string">'mean'</span>,<span class="string">'median'</span>])[<span class="string">'交易额'</span>]</span><br><span class="line">Out[<span class="number">39</span>]: </span><br><span class="line">          max    min         mean  median</span><br><span class="line">姓名                                     </span><br><span class="line">周七   <span class="number">1778.0</span>   <span class="number">53.0</span>  <span class="number">1195.450000</span>  <span class="number">1134.5</span></span><br><span class="line">张三  <span class="number">12100.0</span>  <span class="number">114.0</span>  <span class="number">1529.736842</span>  <span class="number">1290.0</span></span><br><span class="line">李四   <span class="number">1798.0</span>   <span class="number">98.0</span>  <span class="number">1249.574468</span>  <span class="number">1276.0</span></span><br><span class="line">王五   <span class="number">9031.0</span>  <span class="number">801.0</span>  <span class="number">1472.300000</span>  <span class="number">1227.0</span></span><br><span class="line">赵六   <span class="number">1775.0</span>  <span class="number">825.0</span>  <span class="number">1245.977778</span>  <span class="number">1224.0</span></span><br><span class="line">钱八   <span class="number">1737.0</span>  <span class="number">807.0</span>  <span class="number">1322.722222</span>  <span class="number">1381.0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="透视表与交叉表"><a href="#透视表与交叉表" class="headerlink" title="透视表与交叉表"></a>透视表与交叉表</h2><h3 id="透视表"><a href="#透视表" class="headerlink" title="透视表"></a>透视表</h3><p>透视表通过聚合一个或多个键，把数据分散到对应的行和列上。</p>
+<ul>
+<li><p><code>pivot(index=None,columns=None,values=None)</code></p>
+<ul>
+<li><p>index用来指定使用哪一列数据作为结果DataFrame的索引。</p>
+</li>
+<li><p>columns用来指定哪一列数据作为结果DataFrame的列名。</p>
+</li>
+<li><p>values用来指定哪一列数据作为结果DataFrame的值。</p>
+<p><a href="https://leecode1024.oss-cn-qingdao.aliyuncs.com/shujufenxi/%E7%94%A8%E6%B0%B4%E6%83%85%E5%86%B5.xlsx" target="_blank" rel="noopener">文件链接</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">已知某小区所有楼号所有业主<span class="number">2015</span>年到<span class="number">2019</span>年每个月用水情况，该小区供<span class="number">66</span>栋楼，每个楼<span class="number">33</span>层，每层<span class="number">4</span>户，这些数据保存在文件“用水情况.xlsx”中，约<span class="number">52</span>万条数据，格式如下：其中房号前两位表示楼号（<span class="number">01</span><span class="number">-66</span>）、中间两位表示楼层（<span class="number">01</span><span class="number">-33</span>），最后两位表示房号（<span class="number">01</span><span class="number">-04</span>）。</span><br><span class="line">现在要求统计出该小区每年每个业主房号的用水情况、每个楼的用水情况，并输出年度用水量最大的业主房号。</span><br><span class="line">注意：表内有缺失值，先将缺失值填充为该栋楼用水平均值。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">df=pd.read_excel(<span class="string">'用水情况.xlsx'</span>,converters=&#123;<span class="string">'日期'</span>:str,<span class="string">'房号'</span>:str&#125;)</span><br><span class="line"></span><br><span class="line">df[<span class="string">'楼号'</span>]=[ item[<span class="number">0</span>:<span class="number">2</span>] <span class="keyword">for</span> item <span class="keyword">in</span> df[<span class="string">'房号'</span>]]</span><br><span class="line">df[<span class="string">'年份'</span>]=[ item[<span class="number">0</span>:<span class="number">4</span>] <span class="keyword">for</span> item <span class="keyword">in</span> df[<span class="string">'日期'</span>]]</span><br><span class="line">dff=df[df[<span class="string">'用水量（立方）'</span>].isnull()]</span><br><span class="line">dff=dff.groupby(<span class="string">'楼号'</span>)</span><br><span class="line"><span class="keyword">for</span> name,value <span class="keyword">in</span> dff:</span><br><span class="line">    df.loc[value.index,<span class="string">'用水量（立方）'</span>]=df[ df[<span class="string">'楼号'</span>]==name ][<span class="string">'用水量（立方）'</span>].mean()    </span><br><span class="line">df1=df.groupby(by=[<span class="string">'年份'</span>,<span class="string">'房号'</span>,<span class="string">'楼号'</span>],as_index=<span class="literal">False</span>)[<span class="string">'用水量（立方）'</span>].sum()    </span><br><span class="line">df2=df1.groupby(by=[<span class="string">'年份'</span>,<span class="string">'楼号'</span>],as_index=<span class="literal">False</span>)[<span class="string">'用水量（立方）'</span>].sum()</span><br><span class="line">dd=df1.pivot(index=<span class="string">'房号'</span>,columns=<span class="string">'年份'</span>,values=<span class="string">'用水量（立方）'</span>)</span><br><span class="line">a=df2.pivot(index=<span class="string">'楼号'</span>,columns=<span class="string">'年份'</span>,values=<span class="string">'用水量（立方）'</span>)</span><br><span class="line">b=df1.groupby(by=[<span class="string">'年份'</span>],as_index=<span class="literal">False</span>)[<span class="string">'用水量（立方）'</span>].idxmax().values</span><br><span class="line">bb=df1[df1.index.isin(b)].reset_index()</span><br><span class="line">print(dd)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line">print(bb)</span><br><span class="line">=======================================================================================</span><br><span class="line">年份          <span class="number">2015</span>        <span class="number">2016</span>        <span class="number">2017</span>        <span class="number">2018</span>        <span class="number">2019</span></span><br><span class="line">房号                                                              </span><br><span class="line"><span class="number">010101</span>  <span class="number">227.467979</span>  <span class="number">153.000000</span>  <span class="number">174.000000</span>  <span class="number">204.000000</span>  <span class="number">226.000000</span></span><br><span class="line"><span class="number">010102</span>  <span class="number">180.467979</span>  <span class="number">187.000000</span>  <span class="number">192.000000</span>  <span class="number">149.000000</span>  <span class="number">171.467979</span></span><br><span class="line"><span class="number">010103</span>  <span class="number">189.000000</span>  <span class="number">193.467979</span>  <span class="number">186.000000</span>  <span class="number">173.467979</span>  <span class="number">218.000000</span></span><br><span class="line"><span class="number">010104</span>  <span class="number">241.000000</span>  <span class="number">219.467979</span>  <span class="number">182.000000</span>  <span class="number">183.000000</span>  <span class="number">205.000000</span></span><br><span class="line"><span class="number">010201</span>  <span class="number">148.000000</span>  <span class="number">220.467979</span>  <span class="number">196.935958</span>  <span class="number">150.000000</span>  <span class="number">152.000000</span></span><br><span class="line">           ...         ...         ...         ...         ...</span><br><span class="line"><span class="number">663204</span>  <span class="number">178.000000</span>  <span class="number">187.000000</span>  <span class="number">199.000000</span>  <span class="number">165.514719</span>  <span class="number">200.029439</span></span><br><span class="line"><span class="number">663301</span>  <span class="number">203.514719</span>  <span class="number">126.514719</span>  <span class="number">199.000000</span>  <span class="number">175.514719</span>  <span class="number">168.514719</span></span><br><span class="line"><span class="number">663302</span>  <span class="number">133.000000</span>  <span class="number">141.000000</span>  <span class="number">216.000000</span>  <span class="number">158.029439</span>  <span class="number">209.000000</span></span><br><span class="line"><span class="number">663303</span>  <span class="number">202.514719</span>  <span class="number">182.029439</span>  <span class="number">179.000000</span>  <span class="number">217.514719</span>  <span class="number">199.000000</span></span><br><span class="line"><span class="number">663304</span>  <span class="number">172.000000</span>  <span class="number">174.000000</span>  <span class="number">166.000000</span>  <span class="number">213.514719</span>  <span class="number">206.029439</span></span><br><span class="line"></span><br><span class="line">[<span class="number">8712</span> rows x <span class="number">5</span> columns]</span><br><span class="line">年份          <span class="number">2015</span>          <span class="number">2016</span>          <span class="number">2017</span>          <span class="number">2018</span>          <span class="number">2019</span></span><br><span class="line">楼号                                                                      </span><br><span class="line"><span class="number">01</span>    <span class="number">24318.738845</span>  <span class="number">24857.738845</span>  <span class="number">24402.950656</span>  <span class="number">24458.482677</span>  <span class="number">24468.482677</span></span><br><span class="line"><span class="number">02</span>    <span class="number">24780.316352</span>  <span class="number">25030.093941</span>  <span class="number">24512.001694</span>  <span class="number">24687.631010</span>  <span class="number">24043.538762</span></span><br><span class="line"><span class="number">03</span>    <span class="number">23990.274951</span>  <span class="number">24689.435654</span>  <span class="number">24276.855303</span>  <span class="number">24093.326740</span>  <span class="number">24253.383865</span></span><br><span class="line"><span class="number">04</span>    <span class="number">24820.536194</span>  <span class="number">24891.477110</span>  <span class="number">24774.183905</span>  <span class="number">24559.713447</span>  <span class="number">23948.063519</span></span><br><span class="line"><span class="number">05</span>    <span class="number">24311.726608</span>  <span class="number">24951.666058</span>  <span class="number">24231.835965</span>  <span class="number">24528.841837</span>  <span class="number">24039.841837</span></span><br><span class="line">           ...           ...           ...           ...           ...</span><br><span class="line"><span class="number">62</span>    <span class="number">25237.022141</span>  <span class="number">24912.973536</span>  <span class="number">24056.315210</span>  <span class="number">24771.144373</span>  <span class="number">24651.534652</span></span><br><span class="line"><span class="number">63</span>    <span class="number">24605.034721</span>  <span class="number">24570.751077</span>  <span class="number">24140.717791</span>  <span class="number">24684.584650</span>  <span class="number">24627.101292</span></span><br><span class="line"><span class="number">64</span>    <span class="number">24154.465423</span>  <span class="number">24736.969990</span>  <span class="number">24506.969990</span>  <span class="number">24724.971294</span>  <span class="number">24631.456289</span></span><br><span class="line"><span class="number">65</span>    <span class="number">24128.715851</span>  <span class="number">24705.880626</span>  <span class="number">24549.374951</span>  <span class="number">24383.792564</span>  <span class="number">24339.727202</span></span><br><span class="line"><span class="number">66</span>    <span class="number">24288.794845</span>  <span class="number">24703.824284</span>  <span class="number">24555.103493</span>  <span class="number">24508.515635</span>  <span class="number">24820.339003</span></span><br><span class="line"></span><br><span class="line">[<span class="number">66</span> rows x <span class="number">5</span> columns]</span><br><span class="line">   index  年份    房号 楼号  用水量（立方）</span><br><span class="line"><span class="number">0</span>   <span class="number">1097</span>  <span class="number">2015</span>  <span class="number">091102</span>   <span class="number">09</span>           <span class="number">313.0</span></span><br><span class="line"><span class="number">1</span>  <span class="number">11821</span>  <span class="number">2016</span>  <span class="number">241902</span>   <span class="number">24</span>           <span class="number">291.0</span></span><br><span class="line"><span class="number">2</span>  <span class="number">25747</span>  <span class="number">2017</span>  <span class="number">640204</span>   <span class="number">64</span>           <span class="number">302.0</span></span><br><span class="line"><span class="number">3</span>  <span class="number">32921</span>  <span class="number">2018</span>  <span class="number">521402</span>   <span class="number">52</span>           <span class="number">298.0</span></span><br><span class="line"><span class="number">4</span>  <span class="number">35337</span>  <span class="number">2019</span>  <span class="number">042402</span>   <span class="number">04</span>           <span class="number">286.0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="交叉表"><a href="#交叉表" class="headerlink" title="交叉表"></a>交叉表</h3><p>交叉表是一种特殊的透视表，往往用来统计频次，也可以使用参数aggfunc指定聚合函数从而实现其他功能。</p>
+<p>pandas提供了crosstab函数，根据一个DataFrame对象中的数据生成交叉表，返回新的DataFrame。</p>
+<ul>
+<li><code>crosstab(index,columns,values=None,rownames=None,columns=None,aggfunc=None,margins=False,dropna=True,normalize=False)</code><ul>
+<li>values,index,columns的含义与透视表pivot()一样。</li>
+<li>aggfunc用来指定聚合函数，默认为统计次数。</li>
+<li>rownames和colnames分别用来指定行索引和列索引的名字，如果不指定，则直接用参数index,columns指定的列名。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.ambiguous_as_wide'</span>,<span class="literal">True</span>)</span><br><span class="line">pd.set_option(<span class="string">'display.unicode.east_asian_width'</span>,<span class="literal">True</span>)</span><br><span class="line">df = pd.read_excel(<span class="string">'超市营业额2.xlsx'</span>)</span><br><span class="line">print(<span class="string">'每人每天的上班次数'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(pd.crosstab(df.姓名,df.日期,margins=<span class="literal">True</span>).iloc[:,:<span class="number">5</span>])</span><br><span class="line">print(<span class="string">'每人在各柜台上班总次数'</span>.ljust(<span class="number">20</span>,<span class="string">'='</span>))</span><br><span class="line">print(pd.crosstab(df.姓名,df.柜台))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">每人每天的上班次数===========</span><br><span class="line">日期  <span class="number">2019</span><span class="number">-03</span><span class="number">-01</span>  <span class="number">2019</span><span class="number">-03</span><span class="number">-02</span>  <span class="number">2019</span><span class="number">-03</span><span class="number">-03</span>  <span class="number">2019</span><span class="number">-03</span><span class="number">-04</span>  <span class="number">2019</span><span class="number">-03</span><span class="number">-05</span></span><br><span class="line">姓名                                                            </span><br><span class="line">周七           <span class="number">1</span>           <span class="number">1</span>           <span class="number">2</span>           <span class="number">2</span>           <span class="number">1</span></span><br><span class="line">张三           <span class="number">2</span>           <span class="number">1</span>           <span class="number">1</span>           <span class="number">1</span>           <span class="number">2</span></span><br><span class="line">李四           <span class="number">1</span>           <span class="number">2</span>           <span class="number">1</span>           <span class="number">2</span>           <span class="number">2</span></span><br><span class="line">王五           <span class="number">1</span>           <span class="number">2</span>           <span class="number">1</span>           <span class="number">1</span>           <span class="number">1</span></span><br><span class="line">赵六           <span class="number">1</span>           <span class="number">1</span>           <span class="number">2</span>           <span class="number">1</span>           <span class="number">1</span></span><br><span class="line">钱八           <span class="number">2</span>           <span class="number">1</span>           <span class="number">1</span>           <span class="number">1</span>           <span class="number">1</span></span><br><span class="line">All            <span class="number">8</span>           <span class="number">8</span>           <span class="number">8</span>           <span class="number">8</span>           <span class="number">8</span></span><br><span class="line">每人在各柜台上班总次数=========</span><br><span class="line">柜台  化妆品  日用品  蔬菜水果  食品</span><br><span class="line">姓名                                </span><br><span class="line">周七       <span class="number">9</span>      <span class="number">11</span>        <span class="number">14</span>     <span class="number">8</span></span><br><span class="line">张三      <span class="number">19</span>       <span class="number">6</span>         <span class="number">6</span>     <span class="number">7</span></span><br><span class="line">李四      <span class="number">16</span>       <span class="number">9</span>        <span class="number">18</span>     <span class="number">4</span></span><br><span class="line">王五       <span class="number">8</span>       <span class="number">9</span>         <span class="number">9</span>    <span class="number">14</span></span><br><span class="line">赵六      <span class="number">10</span>      <span class="number">18</span>         <span class="number">2</span>    <span class="number">15</span></span><br><span class="line">钱八       <span class="number">0</span>       <span class="number">9</span>        <span class="number">14</span>    <span class="number">14</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="李义 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/aipay.png" alt="李义 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+    
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag"><i class="fa fa-tag"></i> 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/31/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E4%B8%89%E5%89%91%E5%AE%A2%E4%B9%8BNumpy/" rel="next" title="Python数据分析三剑客之Numpy">
+                <i class="fa fa-chevron-left"></i> Python数据分析三剑客之Numpy
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/06/04/Python%E4%B9%8B%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/" rel="prev" title="Python之网络爬虫">
+                Python之网络爬虫 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.jpg"
+                alt="李义" />
+            
+              <p class="site-author-name" itemprop="name">李义</p>
+              <p class="site-description motion-element" itemprop="description">这里写描述</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas"><span class="nav-number">1.</span> <span class="nav-text">pandas</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas介绍"><span class="nav-number">3.</span> <span class="nav-text">pandas介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pandas常用数据类型"><span class="nav-number">4.</span> <span class="nav-text">pandas常用数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一维数组与常用操作"><span class="nav-number">5.</span> <span class="nav-text">一维数组与常用操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Series对象"><span class="nav-number">5.1.</span> <span class="nav-text">创建Series对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改值"><span class="nav-number">5.2.</span> <span class="nav-text">修改值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用操作"><span class="nav-number">5.3.</span> <span class="nav-text">常用操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#时间序列与常用操作"><span class="nav-number">6.</span> <span class="nav-text">时间序列与常用操作.</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二维数组DataFrame"><span class="nav-number">7.</span> <span class="nav-text">二维数组DataFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dataframe数据处理与分析"><span class="nav-number">7.1.</span> <span class="nav-text">Dataframe数据处理与分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取数据"><span class="nav-number">7.2.</span> <span class="nav-text">读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据筛选"><span class="nav-number">7.3.</span> <span class="nav-text">数据筛选</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看数据特征和统计信息"><span class="nav-number">7.4.</span> <span class="nav-text">查看数据特征和统计信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据排序"><span class="nav-number">7.5.</span> <span class="nav-text">数据排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常值、缺失值、重复值的处理"><span class="nav-number">7.6.</span> <span class="nav-text">异常值、缺失值、重复值的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#异常值"><span class="nav-number">7.6.1.</span> <span class="nav-text">异常值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺失值"><span class="nav-number">7.6.2.</span> <span class="nav-text">缺失值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重复值"><span class="nav-number">7.6.3.</span> <span class="nav-text">重复值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分组与聚合"><span class="nav-number">7.7.</span> <span class="nav-text">分组与聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分组"><span class="nav-number">7.7.1.</span> <span class="nav-text">分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合"><span class="nav-number">7.7.2.</span> <span class="nav-text">聚合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透视表与交叉表"><span class="nav-number">7.8.</span> <span class="nav-text">透视表与交叉表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#透视表"><span class="nav-number">7.8.1.</span> <span class="nav-text">透视表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉表"><span class="nav-number">7.8.2.</span> <span class="nav-text">交叉表</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李义</span>
+
+  
+</div>
+<!--
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">symbols_count_time.count_total：</span>
+    
+  <span title="Site words total count">
+     131.4k字 </span>
+    <!--<span title="symbols_count_time.count_total">391k</span>-->
+  
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共131.4k字</span>
+  </div>
+  <!-- 新增访客统计代码 -->
+
+<div class="busuanzi-count">
+    <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      访问用户： <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+    <div class="powered-by"></div>
+    <span class="site-uv">
+      <i class="fa fa-eye"></i>
+      访问次数： <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+    <!-- 博客字数统计 -->
+    <span class="site-pv">
+      <i class="fa fa-pencil"></i>
+      博客全站共： <span class="post-count">131.4k</span> 字
+    </span>
+</div>
+<!-- 新增访客统计代码 END-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("HHo5ARpd4p1yPoBL3xYEgcNV-gzGzoHsz", "2SnHYdpQzjgbCuF8NdQlghh");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://leecode1024.github.io"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,构建工具," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Lee" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Maven导言生产环境下开发不再是一个项目一个工程，而是每一个模块创建一个工程，而多个模块整合在一起就需要使用到像 Maven 这样的构建工具。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven">
+<meta property="og:url" content="https://github.com/leecode1024/leecode1024.github.io/2021/07/06/Maven/index.html">
+<meta property="og:site_name" content="Lee">
+<meta property="og:description" content="Maven导言生产环境下开发不再是一个项目一个工程，而是每一个模块创建一个工程，而多个模块整合在一起就需要使用到像 Maven 这样的构建工具。">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven01.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven02.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven03.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven04.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven05.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/%E5%88%9B%E5%BB%BAmaven%E7%89%88java%E9%A1%B9%E7%9B%AE01.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/%E5%88%9B%E5%BB%BAmaven%E7%89%88java%E9%A1%B9%E7%9B%AE02.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/%E5%88%9B%E5%BB%BAmaven%E7%89%88java%E9%A1%B9%E7%9B%AE03.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web01.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web02.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web03.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web04.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/jsp%E5%87%BA%E9%94%99.png">
+<meta property="og:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/%E6%89%A7%E8%A1%8Cmaven%E5%91%BD%E4%BB%A4.png">
+<meta property="article:published_time" content="2021-07-06T09:08:22.000Z">
+<meta property="article:modified_time" content="2021-07-06T09:11:53.831Z">
+<meta property="article:author" content="李义">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="构建工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/leecode1024/leecode1024.github.io/2021/07/06/Maven/"/>
+
+
+
+
+
+  <title>Maven | Lee</title>
+  
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">捣鼓一个博客玩</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/leecode1024/leecode1024.github.io/2021/07/06/Maven/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李义">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Maven</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-06T17:08:22+08:00">
+                2021-07-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-07-06T17:11:53+08:00">
+                2021-07-06
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2021/07/06/Maven/" class="leancloud_visitors" data-flag-title="Maven">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.7k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><h2 id="导言"><a href="#导言" class="headerlink" title="导言"></a>导言</h2><p>生产环境下开发不再是一个项目一个工程，而是每一个模块创建一个工程，而多个模块整合在一起就需要使用到像 Maven 这样的构建工具。</p>
+<a id="more"></a>
+
+<h2 id="究竟为什么使用"><a href="#究竟为什么使用" class="headerlink" title="究竟为什么使用"></a>究竟为什么使用</h2><h3 id="添加第三方-jar-包"><a href="#添加第三方-jar-包" class="headerlink" title="添加第三方 jar 包"></a>添加第三方 jar 包</h3><p>在今天的 JavaEE 开发领域，有大量的第三方框架和工具可以供我们使用。要使用这些 jar 包最简单</p>
+<p>的方法就是复制粘贴到 WEB-INF/lib 目录下。但是这会导致每次创建一个新的工程就需要将 jar 包重复复</p>
+<p>制到 lib 目录下，从而造成工作区中存在大量重复的文件，让我们的工程显得很臃肿。</p>
+<p>而使用 Maven 后每个 jar 包本身只在本地仓库中保存一份，需要 jar 包的工程只需要以坐标的方式</p>
+<p>简单的引用一下就可以了。不仅极大的节约了存储空间，让项目更轻巧，更避免了重复文件太多而造成</p>
+<p>的混乱。</p>
+<h3 id="jar-包之间的依赖关系"><a href="#jar-包之间的依赖关系" class="headerlink" title="jar 包之间的依赖关系"></a>jar 包之间的依赖关系</h3><p>​    jar 包往往不是孤立存在的，很多 jar 包都需要在其他 jar 包的支持下才能够正常工作，我们称之r 包之间的依赖关系。最典型的例子是：commons-fileupload-1.3.jar 依赖于 commons-io-2.0.1.jar，如没有 IO 包，FileUpload 包就不能正常工作。 </p>
+<p>​    那么问题来了，你知道你所使用的所有 jar 包的依赖关系吗？当你拿到一个新的从未使用过的 包，你如何得知他需要哪些 jar 包的支持呢？如果不了解这个情况，导入的 jar 包不够，那么现有的序将不能正常工作。再进一步，当你的项目中需要用到上百个 jar 包时，你还会人为的，手工的逐一认它们依赖的其他 jar 包吗？这简直是不可想象的。 </p>
+<p>​    而引入 Maven 后，Maven 就可以替我们自动的将当前 jar 包所依赖的其他所有 jar 包全部导入进无需人工参与，节约了我们大量的时间和精力。用实际例子来说明就是：通过 Maven 导ommons-fileupload-1.3.jar 后，commons-io-2.0.1.jar 会被自动导入，程序员不必了解这个依赖关系。</p>
+<h3 id="获取第三方-jar-包"><a href="#获取第三方-jar-包" class="headerlink" title="获取第三方 jar 包"></a>获取第三方 jar 包</h3><p>​    JavaEE 开发中需要使用到的 jar 包种类繁多，几乎每个 jar 包在其本身的官网上的获取方式都不尽相</p>
+<p>同。为了查找一个 jar 包找遍互联网，身心俱疲，没有经历过的人或许体会不到这种折磨。不仅如此，</p>
+<p>费劲心血找的 jar 包里有的时候并没有你需要的那个类，又或者又同名的类没有你要的方法——以不规</p>
+<p>范的方式获取的 jar 包也往往是不规范的。</p>
+<p>​    使用 Maven 我们可以享受到一个完全统一规范的 jar 包管理体系。你只需要在你的项目中以坐标的</p>
+<p>方式依赖一个 jar 包，Maven 就会自动从中央仓库进行下载，并同时下载这个 jar 包所依赖的其他 jar 包 </p>
+<p>——规范、完整、准确！一次性解决所有问题！</p>
+<p>​    Tips：在这里我们顺便说一下，统一的规范几乎可以说成是程序员的最高信仰。如果没有统一的规</p>
+<p>范，就意味着每个具体的技术都各自为政，需要以诸多不同的特殊的方式加入到项目中；好不容易加入</p>
+<p>进来还会和其他技术格格不入，最终受苦的是我们。而任何一个领域的统一规范都能够极大的降低程序</p>
+<p>员的工作难度，减少工作量。例如：USB 接口可以外接各种设备，如果每个设备都有自己独特的接口，</p>
+<p>那么不仅制造商需要维护各个接口的设计方案，使用者也需要详细了解每个设备对应的接口，无疑是非</p>
+<p>常繁琐的。</p>
+<h3 id="将项目拆分成多个工程模块"><a href="#将项目拆分成多个工程模块" class="headerlink" title="将项目拆分成多个工程模块"></a>将项目拆分成多个工程模块</h3><p>​    随着 JavaEE 项目的规模越来越庞大，开发团队的规模也与日俱增。一个项目上千人的团队持续开</p>
+<p>发很多年对于 JavaEE 项目来说再正常不过。那么我们想象一下：几百上千的人开发的项目是同一个 Web</p>
+<p>工程。那么架构师、项目经理该如何划分项目的模块、如何分工呢？这么大的项目已经不可能通过</p>
+<p>package 结构来划分模块，必须将项目拆分成多个工程协同开发。多个模块工程中有的是 Java 工程，有</p>
+<p>的是 Web 工程。</p>
+<h2 id="什么是maven"><a href="#什么是maven" class="headerlink" title="什么是maven"></a>什么是maven</h2><h3 id="Maven-简介"><a href="#Maven-简介" class="headerlink" title="Maven 简介"></a>Maven 简介</h3><p>Maven 是 Apache 软件基金会组织维护的一款自动化<strong>构建</strong>工具，专注服务于 Java 平台的<strong>项目构建</strong>和</p>
+<p><strong>依赖管理</strong>。Maven 这个单词的本意是：专家，内行。读音是[‘meɪv(ə)n]或[‘mevn]。</p>
+<h3 id="什么是构建"><a href="#什么是构建" class="headerlink" title="什么是构建"></a>什么是构建</h3><p>构建并不是创建，创建一个工程并不等于构建一个项目。要了解构建的含义我们应该由浅入深的从</p>
+<p>以下三个层面来看：</p>
+<p>①纯 Java 代码</p>
+<p>大家都知道，我们 Java 是一门编译型语言，.java 扩展名的源文件需要编译成.class 扩展名的字节码</p>
+<p>文件才能够执行。所以编写任何 Java 代码想要执行的话就必须经过编译得到对应的.class 文件。</p>
+<p>②Web 工程</p>
+<p>当我们需要通过浏览器访问 Java 程序时就必须将包含 Java 程序的 Web 工程编译的结果“拿”到服务</p>
+<p>器上的指定目录下，并启动服务器才行。这个“拿”的过程我们叫部署。</p>
+<p>我们可以将未编译的 Web 工程比喻为一只生的鸡，编译好的 Web 工程是一只煮熟的鸡，编译部署</p>
+<p>的过程就是将鸡炖熟。</p>
+<p>Web 工程和其编译结果的目录结构对比见下图：</p>
+<img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven图片/maven01.png" style="zoom:150%;" />
+
+<p>③实际项目</p>
+<p>在实际项目中整合第三方框架，Web 工程中除了 Java 程序和 JSP 页面、图片等静态资源之外，还</p>
+<p>包括第三方框架的 jar 包以及各种各样的配置文件。所有这些资源都必须按照正确的目录结构部署到服</p>
+<p>务器上，项目才可以运行。</p>
+<p>所以综上所述：构建就是以我们编写的 Java 代码、框架配置文件、国际化等其他资源文件、JSP 页</p>
+<p>面和图片等静态资源作为“原材料”，去“生产”出一个可以运行的项目的过程。</p>
+<p>那么项目构建的全过程中都包含哪些环节呢？</p>
+<h3 id="构建过程的几个主要环节"><a href="#构建过程的几个主要环节" class="headerlink" title="构建过程的几个主要环节"></a>构建过程的几个主要环节</h3><p>①<strong>清理</strong>：删除以前的编译结果，为重新编译做好准备。</p>
+<p>②<strong>编译</strong>：将 Java 源程序编译为字节码文件。</p>
+<p>③<strong>测试</strong>：针对项目中的关键点进行测试，确保项目在迭代开发过程中关键点的正确性。</p>
+<p>④<strong>报告</strong>：在每一次测试后以标准的格式记录和展示测试结果。</p>
+<p>⑤<strong>打包</strong>：将一个包含诸多文件的工程封装为一个压缩文件用于安装或部署。Java 工程对应 jar 包，Web</p>
+<p>工程对应 war 包。</p>
+<p>⑥<strong>安装</strong>：在 Maven 环境下特指将打包的结果——jar 包或 war 包安装到本地仓库中。</p>
+<p>⑦<strong>部署</strong>：将打包的结果部署到远程仓库或将 war 包部署到服务器上运行。</p>
+<h2 id="Maven-核心概念"><a href="#Maven-核心概念" class="headerlink" title="Maven 核心概念"></a>Maven 核心概念</h2><p>Maven 能够实现自动化构建是和它的内部原理分不开的，这里我们从 Maven 的九个核心概念入手，</p>
+<p>看看 Maven 是如何实现自动化构建的</p>
+<p>①POM</p>
+<p>②约定的目录结构</p>
+<p>③坐标</p>
+<p>④依赖管理</p>
+<p>⑤仓库管理</p>
+<p>⑥生命周期</p>
+<p>⑦插件和目标</p>
+<p>⑧继承</p>
+<p>⑨聚合</p>
+<h2 id="第一个maven工程"><a href="#第一个maven工程" class="headerlink" title="第一个maven工程"></a>第一个maven工程</h2><h3 id="约定的目录结构"><a href="#约定的目录结构" class="headerlink" title="约定的目录结构"></a>约定的目录结构</h3><p>约定的目录结构对于 Maven 实现自动化构建而言是必不可少的一环，就拿自动编译来说，Maven 必须</p>
+<p>能找到 Java 源文件，下一步才能编译，而编译之后也必须有一个准确的位置保持编译得到的字节码文件。</p>
+<p>我们在开发中如果需要让第三方工具或框架知道我们自己创建的资源在哪，那么基本上就是两种方式：</p>
+<p>①通过配置的形式明确告诉它</p>
+<p>②基于第三方工具或框架的约定</p>
+<p>Maven 对工程目录结构的要求就属于后面的一种。</p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven02.png" alt=""></p>
+<h3 id="常用maven命令"><a href="#常用maven命令" class="headerlink" title="常用maven命令"></a>常用maven命令</h3><ol>
+<li>注意：执行与构建过程相关的Maven命令，必须进入pom.xml所在的目录。<ul>
+<li>与构建过程相关：编译、测试、打包…</li>
+</ul>
+</li>
+<li>常用命令<ol>
+<li>mvn clean：清理</li>
+<li>mvn compile：编译主程序</li>
+<li>mvn test-compile：编译测试程序</li>
+<li>mvn test：执行测试</li>
+<li>mvn package：打包</li>
+<li>mvn install:安装</li>
+</ol>
+</li>
+</ol>
+<h2 id="POM"><a href="#POM" class="headerlink" title="POM"></a>POM</h2><ol>
+<li>含义：Project Object Model 项目对象模型</li>
+<li>pom.xml对于Maven工程师核心配置文件，与构建过程相关的一切设置都在这个文件中进行配置</li>
+</ol>
+<h2 id="坐标"><a href="#坐标" class="headerlink" title="坐标"></a>坐标</h2><ol>
+<li><p>数学中的坐标</p>
+<ol>
+<li>平面上，使用x、y两个向量可以唯一的定位平面中的任何一个点</li>
+<li>在空间中使用x,y,z三个向量可以唯一定位空间中的任何一个点</li>
+</ol>
+</li>
+<li><p>Maven的坐标</p>
+<ul>
+<li>使用下面三个向量在仓库中唯一定位一个Maven工程<ul>
+<li>groupid：公司或组织域名倒序+项目名  <code>&lt;groupId&gt;com.dzu.maven&lt;/groupId&gt;</code></li>
+<li>artifactid：模块名 <code>&lt;artifactId&gt;Hello&lt;/artifactId&gt;</code></li>
+<li>version：版本 <code>&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Maven工程的左边与仓库中路径的对应关系</p>
+<p><code>&lt;groupId&gt;org.springframework&lt;/groupId&gt;</code></p>
+<p><code>&lt;artifactId&gt;spring-core&lt;/artifactId&gt;</code></p>
+<p><code>&lt;version&gt;4.0.0.RELEASE&lt;/version&gt;</code></p>
+<p>对应org/springframework/spring-core/4.0.0.RELEASE/spring-core-4.0.0.RELEASE.jar</p>
+</li>
+</ol>
+<h2 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h2><h3 id="仓库分类"><a href="#仓库分类" class="headerlink" title="仓库分类"></a>仓库分类</h3><ol>
+<li><p>本地仓库</p>
+<p>当前电脑上部署的仓库目录，为当前电脑上所有Maven工程服务</p>
+</li>
+<li><p>远程仓库</p>
+<ol>
+<li><p>私服：搭建在局域网环境中，为局域网范围内所有Maven工程服务</p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven03.png" alt=""></p>
+</li>
+<li><p>中央仓库：假设在internet上，为全世界所有Maven工程服务</p>
+</li>
+<li><p>中央仓库镜像：为了分担中央仓库的流量，提升用户访问速度</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="仓库中保存的内容"><a href="#仓库中保存的内容" class="headerlink" title="仓库中保存的内容"></a>仓库中保存的内容</h3><ol>
+<li>maven自身所需要的插件</li>
+<li>第三方框架或者工具的jar包</li>
+<li>我们自己开发的Maven工程</li>
+</ol>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><ol>
+<li><p>maven解析依赖信息时会到本地仓库查找本依赖的jar包</p>
+<ul>
+<li>对于我们自己开发的maven工程</li>
+</ul>
+</li>
+<li><p>依赖的范围</p>
+<ul>
+<li>compile<ul>
+<li>对主程序是否有效：有效</li>
+<li>对测试程序是否有效：有效</li>
+<li>是否参与打包：参与</li>
+</ul>
+</li>
+<li>test<ul>
+<li>对主程序是否有效：无效</li>
+<li>对测试程序是否有效：有效</li>
+<li>是否参与打包：不参与</li>
+</ul>
+</li>
+<li>provided<ul>
+<li>对主程序是否有效：有效</li>
+<li>对测试程序是否有效：有效</li>
+<li>是否参与打包：不参与</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>依赖传递性</p>
+<ol>
+<li><p>A 依赖 B，B 依赖 C，A 能否使用 C 呢？那要看 B 依赖 C 的范围是不是 compile，如果是则可用，否则不</p>
+<p>可用。</p>
+</li>
+</ol>
+</li>
+<li><p>依赖的排除</p>
+<p>如果我们在当前工程中引入了一个依赖是 A，而 A 又依赖了 B，那么 Maven 会自动将 A 依赖的 B 引入当</p>
+<p>前工程，但是个别情况下 B 有可能是一个不稳定版，或对当前工程有不良影响。这时我们可以在引入 A 的时</p>
+<p>候将 B 排除。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.atguigu.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>HelloFriend<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">type</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">scope</span>&gt;</span>compile<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span> </span><br><span class="line">         <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span> </span><br><span class="line">             <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span> </span><br><span class="line">             <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span> </span><br><span class="line">         <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span> </span><br><span class="line">     <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同一版本号</p>
+</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">atguigu.spring.version</span>&gt;</span>4.1.1.RELEASE<span class="tag">&lt;/<span class="name">atguigu.spring.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;atguigu.spring.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">……</span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><p>其他</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><ol>
+<li>各个构建环节执行的顺序：不能打乱顺序，必须按照既定的正确顺序来执行。</li>
+<li>maven的核心程序中定义了抽象的生命周期，生命周期中各个阶段的具体任务是由插件来完成的。</li>
+<li>maven核心程序为了更好地实现自动化构建，按照这一特点执行生命周期中的各个阶段，不论现在要执行生命周期中的哪一个极端，都是从这个生命周期最初的位置开始执行。</li>
+<li>插件和目标<ol>
+<li>声明周期的各个阶段仅仅定义了要执行的任务是什么</li>
+<li>各个阶段和插件的目标是对应的</li>
+<li>相似的目标有特定的插件来完成</li>
+</ol>
+</li>
+</ol>
+<h2 id="eclipse这种使用maven"><a href="#eclipse这种使用maven" class="headerlink" title="eclipse这种使用maven"></a>eclipse这种使用maven</h2><ol>
+<li><p>maven插件：eclipse内置</p>
+</li>
+<li><p>插件设置</p>
+<ol>
+<li><p>installations：指定maven核心程序的位置，不建议使用自带的。而使用我们自己解压的</p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven04.png" alt=""></p>
+</li>
+<li><p>user setings：指定conf/settings.xml的位置，进而获取本地仓库的位置</p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/maven05.png" alt=""></p>
+</li>
+</ol>
+</li>
+<li><p>基本操作</p>
+<ol>
+<li><p>创建maven版的java工程</p>
+<img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven图片/创建maven版java项目01.png" style="zoom: 80%;" />
+
+<img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven图片/创建maven版java项目02.png" style="zoom: 80%;" />
+
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/%E5%88%9B%E5%BB%BAmaven%E7%89%88java%E9%A1%B9%E7%9B%AE03.png" alt=""></p>
+<p><strong>注意</strong>这里的jdk默认1.5,我们需要手动改成需要的版本</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">设置通过Maven创建的工程的JDK版本——一劳永逸</span><br><span class="line">		[1]打开settings.xml文件</span><br><span class="line">		[2]找到profiles标签</span><br><span class="line">		[3]加入如下配置</span><br><span class="line">			<span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.7<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">activation</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">activation</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span></span><br><span class="line">					<span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+</li>
+</ol>
+<ol start="2">
+<li><p>创建maven版web工程</p>
+<p>创建工程时将jar改成war，之后得到<img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web01.png" alt=""></p>
+<p>但是这样还缺少很多东西。</p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web02.png" alt=""></p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web03.png" alt=""></p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/web04.png" alt=""></p>
+<p>之后创建jsp后会出错<img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/jsp%E5%87%BA%E9%94%99.png" alt=""></p>
+</li>
+</ol>
+<ol start="3">
+<li><p>执行maven命令</p>
+<p><img src="https://hexolee.oss-cn-beijing.aliyuncs.com/hexo/maven/maven%E5%9B%BE%E7%89%87/%E6%89%A7%E8%A1%8Cmaven%E5%91%BD%E4%BB%A4.png" alt=""></p>
+</li>
+</ol>
+<h2 id="在子工程中引用父工程"><a href="#在子工程中引用父工程" class="headerlink" title="在子工程中引用父工程"></a>在子工程中引用父工程</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.atguigu.maven<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>Parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定从当前子工程的pom.xml文件出发，查找父工程的pom.xml的路径 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">relativePath</span>&gt;</span>../Parent/pom.xml<span class="tag">&lt;/<span class="name">relativePath</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时如果子工程的 groupId 和 version 如果和父工程重复则可以删除。</p>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="李义 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/aipay.png" alt="李义 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+    
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/" rel="tag"><i class="fa fa-tag"></i> 构建工具</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/03/HTML/" rel="next" title="HTML">
+                <i class="fa fa-chevron-left"></i> HTML
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/29/Spring%E6%B3%A8%E8%A7%A3%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/" rel="prev" title="Spring注解驱动开发">
+                Spring注解驱动开发 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.jpg"
+                alt="李义" />
+            
+              <p class="site-author-name" itemprop="name">李义</p>
+              <p class="site-description motion-element" itemprop="description">这里写描述</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven"><span class="nav-number">1.</span> <span class="nav-text">Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导言"><span class="nav-number">1.1.</span> <span class="nav-text">导言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#究竟为什么使用"><span class="nav-number">1.2.</span> <span class="nav-text">究竟为什么使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加第三方-jar-包"><span class="nav-number">1.2.1.</span> <span class="nav-text">添加第三方 jar 包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jar-包之间的依赖关系"><span class="nav-number">1.2.2.</span> <span class="nav-text">jar 包之间的依赖关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取第三方-jar-包"><span class="nav-number">1.2.3.</span> <span class="nav-text">获取第三方 jar 包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将项目拆分成多个工程模块"><span class="nav-number">1.2.4.</span> <span class="nav-text">将项目拆分成多个工程模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是maven"><span class="nav-number">1.3.</span> <span class="nav-text">什么是maven</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven-简介"><span class="nav-number">1.3.1.</span> <span class="nav-text">Maven 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是构建"><span class="nav-number">1.3.2.</span> <span class="nav-text">什么是构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建过程的几个主要环节"><span class="nav-number">1.3.3.</span> <span class="nav-text">构建过程的几个主要环节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven-核心概念"><span class="nav-number">1.4.</span> <span class="nav-text">Maven 核心概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一个maven工程"><span class="nav-number">1.5.</span> <span class="nav-text">第一个maven工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#约定的目录结构"><span class="nav-number">1.5.1.</span> <span class="nav-text">约定的目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用maven命令"><span class="nav-number">1.5.2.</span> <span class="nav-text">常用maven命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POM"><span class="nav-number">1.6.</span> <span class="nav-text">POM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#坐标"><span class="nav-number">1.7.</span> <span class="nav-text">坐标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仓库"><span class="nav-number">1.8.</span> <span class="nav-text">仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#仓库分类"><span class="nav-number">1.8.1.</span> <span class="nav-text">仓库分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仓库中保存的内容"><span class="nav-number">1.8.2.</span> <span class="nav-text">仓库中保存的内容</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖"><span class="nav-number">1.9.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期"><span class="nav-number">1.10.</span> <span class="nav-text">生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eclipse这种使用maven"><span class="nav-number">1.11.</span> <span class="nav-text">eclipse这种使用maven</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在子工程中引用父工程"><span class="nav-number">1.12.</span> <span class="nav-text">在子工程中引用父工程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李义</span>
+
+  
+</div>
+<!--
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">symbols_count_time.count_total：</span>
+    
+  <span title="Site words total count">
+     131.4k字 </span>
+    <!--<span title="symbols_count_time.count_total">391k</span>-->
+  
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共131.4k字</span>
+  </div>
+  <!-- 新增访客统计代码 -->
+
+<div class="busuanzi-count">
+    <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      访问用户： <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+    <div class="powered-by"></div>
+    <span class="site-uv">
+      <i class="fa fa-eye"></i>
+      访问次数： <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+    <!-- 博客字数统计 -->
+    <span class="site-pv">
+      <i class="fa fa-pencil"></i>
+      博客全站共： <span class="post-count">131.4k</span> 字
+    </span>
+</div>
+<!-- 新增访客统计代码 END-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("HHo5ARpd4p1yPoBL3xYEgcNV-gzGzoHsz", "2SnHYdpQzjgbCuF8NdQlghh");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>

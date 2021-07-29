@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("http://leecode1024.github.io"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Lee" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Python之选择、循环结构，函数的定义与使用前言这里介绍python中的选择、循环结构的各种表现形式，以及python特有的语法。简单介绍python中函数的使用，函数参数的各种类型等等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python之选择、循环结构，函数的定义与使用">
+<meta property="og:url" content="https://github.com/leecode1024/leecode1024.github.io/2020/05/30/Python%E4%B9%8B%E9%80%89%E6%8B%A9%E3%80%81%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%EF%BC%8C%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Lee">
+<meta property="og:description" content="Python之选择、循环结构，函数的定义与使用前言这里介绍python中的选择、循环结构的各种表现形式，以及python特有的语法。简单介绍python中函数的使用，函数参数的各种类型等等。">
+<meta property="article:published_time" content="2020-05-30T13:40:03.000Z">
+<meta property="article:modified_time" content="2020-05-31T03:39:42.954Z">
+<meta property="article:author" content="李义">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/leecode1024/leecode1024.github.io/2020/05/30/Python之选择、循环结构，函数的定义与使用/"/>
+
+
+
+
+
+  <title>Python之选择、循环结构，函数的定义与使用 | Lee</title>
+  
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Lee</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">捣鼓一个博客玩</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/leecode1024/leecode1024.github.io/2020/05/30/Python%E4%B9%8B%E9%80%89%E6%8B%A9%E3%80%81%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%EF%BC%8C%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="李义">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lee">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python之选择、循环结构，函数的定义与使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T21:40:03+08:00">
+                2020-05-30
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-31T11:39:42+08:00">
+                2020-05-31
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2020/05/30/Python%E4%B9%8B%E9%80%89%E6%8B%A9%E3%80%81%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84%EF%BC%8C%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="leancloud_visitors" data-flag-title="Python之选择、循环结构，函数的定义与使用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Python之选择、循环结构，函数的定义与使用"><a href="#Python之选择、循环结构，函数的定义与使用" class="headerlink" title="Python之选择、循环结构，函数的定义与使用"></a>Python之选择、循环结构，函数的定义与使用</h1><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这里介绍python中的选择、循环结构的各种表现形式，以及python特有的语法。简单介绍python中函数的使用，函数参数的各种类型等等。</p>
+<a id="more"></a>
+
+<h1 id="选择结构"><a href="#选择结构" class="headerlink" title="选择结构"></a>选择结构</h1><h2 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h2><ul>
+<li>所有合法表达式都可为条件表达式。</li>
+<li>条件表达式的值为True和False</li>
+<li>数字作为条件表达式0,0.0,0j等价于False，其他任意数字均等价于True</li>
+<li>不含任何元素的容器类对象等价于False</li>
+<li>不含任何字符的空字符串等价于False，哪怕有个空格都为True</li>
+</ul>
+<h2 id="三种形式的选择结构"><a href="#三种形式的选择结构" class="headerlink" title="三种形式的选择结构"></a>三种形式的选择结构</h2><p>单分支</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式<span class="number">1</span>：</span><br><span class="line">	语句块<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>双分支</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式<span class="number">1</span>：</span><br><span class="line">	语句块<span class="number">1</span></span><br><span class="line"><span class="keyword">else</span> 表达式<span class="number">2</span>：</span><br><span class="line">	语句块<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>嵌套分支1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式<span class="number">1</span>：</span><br><span class="line">	语句块<span class="number">1</span></span><br><span class="line"><span class="keyword">elif</span> 表达式<span class="number">2</span>:</span><br><span class="line">	语句块<span class="number">2</span></span><br><span class="line"><span class="keyword">elif</span> 表达式<span class="number">3</span>:</span><br><span class="line">	语句块<span class="number">3</span></span><br><span class="line">	...</span><br><span class="line">	...</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块n</span><br></pre></td></tr></table></figure>
+
+<p>嵌套分支2</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式<span class="number">1</span>:</span><br><span class="line">	语句块<span class="number">1</span></span><br><span class="line">	<span class="keyword">if</span> 表达式<span class="number">2</span>:</span><br><span class="line">		语句块<span class="number">2</span></span><br><span class="line">	<span class="keyword">else</span> 表达式<span class="number">3</span>:</span><br><span class="line">    	语句块<span class="number">3</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">if</span> 表达式<span class="number">4</span>:</span><br><span class="line">		语句块<span class="number">4</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="for循环"><a href="#for循环" class="headerlink" title="for循环"></a>for循环</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> 容器类对象:</span><br><span class="line">	循环体</span><br><span class="line">[<span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">else</span>代码块]</span><br></pre></td></tr></table></figure>
+
+<p>python为循环结构加入了else块，else块在<strong>循环体自然结束后执行</strong>。如果循环体提前结束，即执行了break语句，则不执行。</p>
+<h2 id="while循环"><a href="#while循环" class="headerlink" title="while循环"></a>while循环</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> 条件表达式:</span><br><span class="line">	循环体</span><br><span class="line">[<span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">else</span>代码块]</span><br></pre></td></tr></table></figure>
+
+<h2 id="break与continue"><a href="#break与continue" class="headerlink" title="break与continue"></a>break与continue</h2><p>这里的作用跟C语言，java语言作用一样。</p>
+<ul>
+<li>break 直接结束循环体</li>
+<li>continue 跳过之后的循环体语句，进入下次循环</li>
+</ul>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> 函数名<span class="params">([参数列表])</span>:</span></span><br><span class="line">	函数体</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>def 是定义函数的关键字</li>
+<li>参数不需要指定类型，python自动判断</li>
+<li>不需要说明返回值类型，可以返回多个值，没有返回值，认为返回None</li>
+</ul>
+<h2 id="lambda表达式"><a href="#lambda表达式" class="headerlink" title="lambda表达式"></a>lambda表达式</h2><ul>
+<li><p>等价于一个函数，用于需要一个函数，但又不想定义的场合。</p>
+</li>
+<li><p>lambda表达式只能包含一个表达式，不允许包含选择、循环等语法结构。</p>
+</li>
+<li><p>格式：<code>lambda [参数列表]:表达式</code></p>
+</li>
+<li><p>多个参数用逗号隔开，没有参数，表达式的值等于函数的返回值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">案例：</span><br><span class="line"><span class="comment">#给lambda表达式起名字，定义具名函数</span></span><br><span class="line">	func=<span class="keyword">lambda</span> x,y :x+y</span><br><span class="line">	sum=func(<span class="number">3</span>,<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 按各位数字之和的大小升序排序</span></span><br><span class="line">	print(sorted(data,key=<span class="keyword">lambda</span> num:sum(map(int,str(num)))))</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="递归函数"><a href="#递归函数" class="headerlink" title="递归函数"></a>递归函数</h2><ul>
+<li><p>一个函数在执行过程中，又调用本身。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用递归计算自然数各位数字之和</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(num)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">    	<span class="keyword">return</span> func(num//<span class="number">10</span>) + n%<span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h2 id="生成器函数"><a href="#生成器函数" class="headerlink" title="生成器函数"></a>生成器函数</h2><ul>
+<li><p>函数中包含yield语句，代码每次执行到yield语句时，返回一个值，然后暂停执行，当通过其他方式索要数据时，在恢复执行。</p>
+</li>
+<li><p>也就是说yield会返回一个值，但返回之后会记住执行到哪里了，当再次索要数据时，会继续执行。</p>
+</li>
+<li><p>返回的生成器对象具有惰性求值的特性。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">myMap</span><span class="params">(func,iterable)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> iterable:</span><br><span class="line">        <span class="keyword">yield</span> func(item)</span><br><span class="line">result = myMap(str,range(<span class="number">5</span>))</span><br><span class="line">print(result)</span><br><span class="line">print(list(result))</span><br></pre></td></tr></table></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><ul>
+<li><p>位置参数</p>
+<ul>
+<li>即：实参与形参，在位置与数量上对应。这里跟C语言，java语言用法一样。</li>
+</ul>
+</li>
+<li><p>默认值参数</p>
+<ul>
+<li>在定义函数时，为部分形参设置默认值。</li>
+<li>在调用函数时，如果不为已经设置了默认值的参数传值，则使用默认值。如果传了值，则使用实参的值。</li>
+<li>在语法上，任何带默认值的参数，其右边不能有不带默认值的参数。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a,b=<span class="number">5</span>)</span>:</span></span><br><span class="line">	<span class="keyword">return</span> a+b</span><br><span class="line">ab=add(<span class="number">1</span>)  <span class="comment">#6</span></span><br><span class="line">ab1=add(<span class="number">1</span>,<span class="number">2</span>) <span class="comment">#3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关键参数</p>
+<ul>
+<li><p>关键参数是指，明确给哪个参数传值，类似于key=value。</p>
+</li>
+<li><p>这时候，如果参数位置不对应，也无所谓。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a,b)</span></span></span><br><span class="line"><span class="function">	<span class="title">return</span> <span class="title">a</span>+<span class="title">b</span></span></span><br><span class="line">r=add(b=1,a=2)  #3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>可变长度参数</p>
+<ul>
+<li><p>可变长度参数指：一个形参接收实参的数量是可变的</p>
+</li>
+<li><p>形参前加<strong>一个*</strong>，表示接收多个<strong>位置参数</strong>，并把他们放到一个元组中</p>
+</li>
+<li><p>形参前加<strong>两个*</strong>，表示接收多个<strong>关键参数</strong>，并放到字典中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(a,b,*args,**kwargs)</span>:</span></span><br><span class="line">    print(a,b)</span><br><span class="line">    print(args)</span><br><span class="line">    print(kwargs)        </span><br><span class="line">add(<span class="number">1</span>,<span class="number">2</span>,<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">4</span>,<span class="number">5</span>,x=<span class="number">1</span>,y=<span class="number">2</span>,z=<span class="number">3</span>)</span><br><span class="line"><span class="comment">#结果</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line">(<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">&#123;<span class="string">'x'</span>: <span class="number">1</span>, <span class="string">'y'</span>: <span class="number">2</span>, <span class="string">'z'</span>: <span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h2><p>这里介绍局部变量和全局变量</p>
+<ul>
+<li>在函数中只有引用变量值，而没有赋值的操作，该变量叫<strong>全局变量</strong></li>
+<li>如果在函数中有为变量赋值，则该变量为<strong>局部变量</strong>，除非在操作变量前用<strong>global</strong>进行声明。</li>
+<li>局部变量与全局变量相同，<strong>局部变量会覆盖全局变量</strong>。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat.jpg" alt="李义 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/aipay.png" alt="李义 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+    
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/30/Python%E4%B9%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E3%80%81%E8%BF%90%E7%AE%97%E7%AC%A6%E5%92%8C%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0/" rel="next" title="Python之数据类型、运算符和内置函数">
+                <i class="fa fa-chevron-left"></i> Python之数据类型、运算符和内置函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/31/Python%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" rel="prev" title="Python之基本文件操作">
+                Python之基本文件操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+<span class="jiathis_txt">分享到：</span>
+<a class="jiathis_button_fav">收藏夹</a>
+<a class="jiathis_button_copy">复制网址</a>
+<a class="jiathis_button_email">邮件</a>
+<a class="jiathis_button_weixin">微信</a>
+<a class="jiathis_button_qzone">QQ空间</a>
+<a class="jiathis_button_tqq">腾讯微博</a>
+<a class="jiathis_button_douban">豆瓣</a>
+<a class="jiathis_button_share">一键分享</a>
+
+<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+var jiathis_config={
+  data_track_clickback:true,
+  summary:"",
+  shortUrl:false,
+  hideMore:false
+}
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/touxiang.jpg"
+                alt="李义" />
+            
+              <p class="site-author-name" itemprop="name">李义</p>
+              <p class="site-description motion-element" itemprop="description">这里写描述</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python之选择、循环结构，函数的定义与使用"><span class="nav-number">1.</span> <span class="nav-text">Python之选择、循环结构，函数的定义与使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择结构"><span class="nav-number">3.</span> <span class="nav-text">选择结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#条件表达式"><span class="nav-number">3.1.</span> <span class="nav-text">条件表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三种形式的选择结构"><span class="nav-number">3.2.</span> <span class="nav-text">三种形式的选择结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#循环结构"><span class="nav-number">4.</span> <span class="nav-text">循环结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#for循环"><span class="nav-number">4.1.</span> <span class="nav-text">for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#while循环"><span class="nav-number">4.2.</span> <span class="nav-text">while循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#break与continue"><span class="nav-number">4.3.</span> <span class="nav-text">break与continue</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">5.</span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#函数的定义"><span class="nav-number">5.1.</span> <span class="nav-text">函数的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lambda表达式"><span class="nav-number">5.2.</span> <span class="nav-text">lambda表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归函数"><span class="nav-number">5.3.</span> <span class="nav-text">递归函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器函数"><span class="nav-number">5.4.</span> <span class="nav-text">生成器函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">5.5.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量作用域"><span class="nav-number">5.6.</span> <span class="nav-text">变量作用域</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李义</span>
+
+  
+</div>
+<!--
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+-->
+
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">symbols_count_time.count_total：</span>
+    
+  <span title="Site words total count">
+     131.4k字 </span>
+    <!--<span title="symbols_count_time.count_total">391k</span>-->
+  
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共131.4k字</span>
+  </div>
+  <!-- 新增访客统计代码 -->
+
+<div class="busuanzi-count">
+    <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      访问用户： <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+    <div class="powered-by"></div>
+    <span class="site-uv">
+      <i class="fa fa-eye"></i>
+      访问次数： <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+    <!-- 博客字数统计 -->
+    <span class="site-pv">
+      <i class="fa fa-pencil"></i>
+      博客全站共： <span class="post-count">131.4k</span> 字
+    </span>
+</div>
+<!-- 新增访客统计代码 END-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("HHo5ARpd4p1yPoBL3xYEgcNV-gzGzoHsz", "2SnHYdpQzjgbCuF8NdQlghh");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 代码块复制功能 -->
+  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>  
+  <script type="text/javascript" src="/js/src/clipboard-use.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body>
+</html>
